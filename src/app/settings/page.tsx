@@ -232,7 +232,7 @@ export default function SettingsPage() {
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{item.label}</p>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => {
                             const privacyKey = item.key as keyof typeof settings.privacy;
                             if (settings.privacy && privacyKey in settings.privacy) {
