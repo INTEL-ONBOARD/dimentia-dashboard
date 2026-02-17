@@ -1,134 +1,166 @@
 "use client";
 import {
   LayoutDashboard,
-  Store,
-  Activity,
-  Briefcase,
-  Wallet,
+  Users,
+  TrendingUp,
   Heart,
-  Clock,
+  FileText,
+  Bell,
+  FileBarChart,
   Settings,
   Sun,
   Moon,
-  ArrowUpRight,
-  ChevronRight,
+  LogOut,
+  ChevronDown,
 } from "lucide-react";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useThemeStore } from "@/store/useThemeStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
-const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: Store, label: "Marketplace" },
-  { icon: Activity, label: "Analytics" },
+const mainNavItems = [
+  { icon: LayoutDashboard, label: "Overview", href: "/" },
+  { icon: Users, label: "User Analytics", href: "/users" },
+  { icon: TrendingUp, label: "Engagement", href: "/engagement" },
 ];
 
-const profileItems = [
-  { icon: Briefcase, label: "My Projects" },
-  { icon: Wallet, label: "Billing" },
-  { icon: Heart, label: "Favourites" },
-  { icon: Clock, label: "History" },
-  { icon: Settings, label: "Settings" },
+const analyticsItems = [
+  { icon: Heart, label: "Health Insights", href: "/health-insights" },
+  { icon: FileText, label: "Content Analytics", href: "/content" },
+  { icon: Bell, label: "Reminder Analytics", href: "/reminders" },
+];
+
+const managementItems = [
+  { icon: FileBarChart, label: "Reports & Export", href: "/reports" },
+  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 export default function Sidebar() {
-  const [lightMode, setLightMode] = useState(true);
+  const pathname = usePathname();
+  const router = useRouter();
+  const { theme, toggleTheme } = useThemeStore();
+  const { user, logout } = useAuthStore();
+  const [analyticsExpanded, setAnalyticsExpanded] = useState(true);
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
+  const NavLink = ({ item }: { item: typeof mainNavItems[0] }) => {
+    const isActive = pathname === item.href;
+
+    return (
+      <a
+        href={item.href}
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+            ? "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white"
+            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-white"
+          }`}
+      >
+        <item.icon size={18} strokeWidth={1.8} />
+        {item.label}
+      </a>
+    );
+  };
 
   return (
-    <aside className="w-[240px] h-screen bg-white border-r border-gray-100 flex flex-col justify-between py-7 px-5 fixed left-0 top-0 overflow-y-auto">
+    <aside className="w-60 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between py-5 px-3 fixed left-0 top-0 overflow-y-auto z-40">
       <div>
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-10 px-2">
-          <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center">
-            <div className="w-5 h-5 rounded-full border-2 border-violet-400" />
+        <div className="flex items-center gap-3 mb-8 px-2">
+          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center">
+            <Heart size={18} className="text-white" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-900 leading-none">Apex.</h1>
-            <p className="text-[11px] text-gray-400 mt-0.5">Open Framework</p>
+            <h1 className="text-base font-semibold text-slate-900 dark:text-white">
+              DementiaMithura
+            </h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Analytics Dashboard</p>
           </div>
         </div>
 
         {/* Main Nav */}
         <nav className="space-y-1">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href="#"
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
-                item.active
-                  ? "text-violet-600 bg-violet-50"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-              }`}
-            >
-              <item.icon size={18} strokeWidth={item.active ? 2.2 : 1.8} />
-              {item.label}
-            </a>
+          {mainNavItems.map((item) => (
+            <NavLink key={item.href} item={item} />
           ))}
         </nav>
 
-        {/* Profile */}
-        <p className="text-[10px] font-bold text-gray-300 tracking-[0.15em] uppercase mt-8 mb-2 px-3">
-          Profile
-        </p>
-        <nav className="space-y-0.5">
-          {profileItems.map((item) => (
-            <a
-              key={item.label}
-              href="#"
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-all"
-            >
-              <item.icon size={18} strokeWidth={1.8} />
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Other */}
-        <p className="text-[10px] font-bold text-gray-300 tracking-[0.15em] uppercase mt-8 mb-2 px-3">
-          Other
-        </p>
-        <div className="flex items-center justify-between px-3 py-2.5">
-          <div className="flex items-center gap-3 text-[13px] font-medium text-gray-500">
-            <Moon size={18} strokeWidth={1.8} />
-            Light Mode
-          </div>
+        {/* Analytics Section */}
+        <div className="mt-6">
           <button
-            onClick={() => setLightMode(!lightMode)}
-            className="flex items-center bg-gray-100 rounded-full p-[3px]"
+            onClick={() => setAnalyticsExpanded(!analyticsExpanded)}
+            className="flex items-center justify-between w-full px-3 py-2 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
           >
-            <span
-              className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${
-                lightMode ? "bg-white shadow-sm text-violet-600" : "text-gray-400"
-              }`}
-            >
-              <Sun size={11} />
-            </span>
-            <span
-              className={`w-6 h-6 rounded-full flex items-center justify-center transition-all ${
-                !lightMode ? "bg-white shadow-sm text-violet-600" : "text-gray-400"
-              }`}
-            >
-              <Moon size={11} />
-            </span>
+            Analytics
+            <ChevronDown
+              size={14}
+              className={`transition-transform duration-200 ${analyticsExpanded ? '' : '-rotate-90'}`}
+            />
           </button>
+
+          {analyticsExpanded && (
+            <nav className="space-y-1 mt-1">
+              {analyticsItems.map((item) => (
+                <NavLink key={item.href} item={item} />
+              ))}
+            </nav>
+          )}
         </div>
+
+        {/* Management */}
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mt-6 mb-2 px-3">
+          Management
+        </p>
+        <nav className="space-y-1">
+          {managementItems.map((item) => (
+            <NavLink key={item.href} item={item} />
+          ))}
+        </nav>
       </div>
 
-      {/* Plan Card */}
-      <div className="mt-6 rounded-2xl p-5 text-white relative overflow-hidden" style={{ background: "linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%)" }}>
-        <div className="relative">
-          <p className="text-[11px] text-violet-200 font-medium">Current Plan</p>
-          <p className="text-[28px] font-bold mt-1 leading-none">Pro</p>
-          <div className="flex items-center gap-1.5 mt-2 text-[13px] text-violet-200">
-            12 days remaining
+      {/* Bottom Section */}
+      <div className="space-y-3">
+        {/* Theme Toggle */}
+        <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800">
+          <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+            {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
+            {theme === 'dark' ? 'Dark' : 'Light'}
           </div>
-          <button className="mt-5 w-full flex items-center justify-between bg-white/15 hover:bg-white/25 transition-all rounded-xl px-4 py-3 text-[13px] font-semibold">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
-                <ArrowUpRight size={13} />
-              </div>
-              Upgrade Plan
-            </div>
-            <ChevronRight size={15} />
+          <button
+            onClick={toggleTheme}
+            className="relative w-11 h-6 bg-slate-200 dark:bg-slate-700 rounded-full transition-colors"
+          >
+            <span
+              className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-all duration-200 ${theme === 'dark' ? 'left-5' : 'left-0.5'
+                }`}
+            />
           </button>
+        </div>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-slate-600 hover:text-red-600 hover:bg-red-50 dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20 transition-colors w-full"
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
+
+        {/* User Profile */}
+        <div className="flex items-center gap-3 px-3 py-3 rounded-lg bg-slate-50 dark:bg-slate-800">
+          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-medium text-sm">
+            {user?.name?.charAt(0) || 'A'}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+              {user?.name || 'Admin User'}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">
+              {user?.role || 'admin'}
+            </p>
+          </div>
         </div>
       </div>
     </aside>
