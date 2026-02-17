@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import { useThemeStore } from "@/store/useThemeStore";
 import { useAuthStore } from "@/store/useAuthStore";
 
@@ -51,16 +52,17 @@ export default function Sidebar() {
     const isActive = pathname === item.href;
 
     return (
-      <a
+      <Link
         href={item.href}
-        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
             ? "bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white"
             : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/50 dark:hover:text-white"
           }`}
+        prefetch={true}
       >
         <item.icon size={18} strokeWidth={1.8} />
         {item.label}
-      </a>
+      </Link>
     );
   };
 

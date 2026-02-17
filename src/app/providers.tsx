@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
 import { useThemeStore } from "@/store/useThemeStore";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import LoadingBar from "@/components/LoadingBar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -85,6 +86,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
+          <LoadingBar />
           {children}
           <Toaster position="top-right" theme={theme} richColors />
         </ThemeProvider>

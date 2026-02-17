@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface Settings {
+  theme: 'light' | 'dark' | 'system';
   dateRange: 'last7days' | 'last30days' | 'last90days' | 'custom';
   customDateRange?: { start: Date; end: Date };
   refreshInterval: number; // in seconds
@@ -10,6 +11,8 @@ interface Settings {
     email: boolean;
     push: boolean;
     slack: boolean;
+    sms?: boolean;
+    weekly?: boolean;
   };
   dataRetention: number; // in days
 }
@@ -23,6 +26,7 @@ export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
       settings: {
+        theme: 'system',
         dateRange: 'last30days',
         refreshInterval: 300, // 5 minutes
         chartAnimations: true,
@@ -30,6 +34,8 @@ export const useSettingsStore = create<SettingsState>()(
           email: true,
           push: true,
           slack: false,
+          sms: false,
+          weekly: true,
         },
         dataRetention: 730, // 2 years
       },
