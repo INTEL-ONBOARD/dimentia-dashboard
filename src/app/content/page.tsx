@@ -3,21 +3,30 @@ import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import DataTable from "@/components/tables/DataTable";
 import BaseBarChart from "@/components/charts/BaseBarChart";
+import MetricCard from "@/components/cards/MetricCard";
 import { mockArticlePerformance } from "@/lib/mockData";
+import { Eye, FileCheck, Bookmark, Award, TrendingUp, BookOpen } from "lucide-react";
 
 export default function ContentPage() {
   const columns = [
     { key: "title", label: "Article Title", sortable: true },
-    { key: "category", label: "Category", sortable: true },
+    {
+      key: "category", label: "Category", sortable: true,
+      render: (value: string) => (
+        <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded-full">
+          {value}
+        </span>
+      )
+    },
     { key: "views", label: "Views", sortable: true },
     { key: "completions", label: "Completions", sortable: true },
-    { key: "completionRate", label: "Completion Rate", sortable: true,
+    {
+      key: "completionRate", label: "Completion Rate", sortable: true,
       render: (value: number) => (
-        <span className={`px-2 py-1 rounded-lg text-xs font-medium ${
-          value >= 80 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' :
-          value >= 70 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' :
-          'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-        }`}>
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${value >= 80 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400' :
+            value >= 70 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400' :
+              'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400'
+          }`}>
           {value}%
         </span>
       )
@@ -26,35 +35,45 @@ export default function ContentPage() {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
-      <main className="ml-[240px] flex-1 py-6 px-8">
-        <TopNav title="Content Analytics" />
+      <main className="ml-60 flex-1 py-6 px-8">
+        <TopNav title="Content Analytics" subtitle="Track article performance and engagement" />
 
+        {/* Key Metrics */}
         <div className="grid grid-cols-4 gap-6 mt-6">
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Article Views</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">4,847</p>
-            <p className="text-xs text-green-600 mt-2">↑ 12% from last week</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Completions</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">3,716</p>
-            <p className="text-xs text-green-600 mt-2">↑ 8% from last week</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Bookmarks</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">1,651</p>
-            <p className="text-xs text-green-600 mt-2">↑ 15% from last week</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Points Earned</p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">37,160</p>
-            <p className="text-xs text-green-600 mt-2">↑ 8% from last week</p>
-          </div>
+          <MetricCard
+            label="Total Article Views"
+            value={4847}
+            change={12}
+            icon={Eye}
+            color="indigo"
+          />
+          <MetricCard
+            label="Total Completions"
+            value={3716}
+            change={8}
+            icon={FileCheck}
+            color="emerald"
+          />
+          <MetricCard
+            label="Total Bookmarks"
+            value={1651}
+            change={15}
+            icon={Bookmark}
+            color="purple"
+          />
+          <MetricCard
+            label="Total Points Earned"
+            value={37160}
+            change={8}
+            icon={Award}
+            color="amber"
+          />
         </div>
 
-        <div className="mt-6">
+        {/* Category Performance */}
+        <div className="grid grid-cols-2 gap-6 mt-8">
           <BaseBarChart
             title="Article Views by Category"
             data={[
@@ -62,12 +81,37 @@ export default function ContentPage() {
               { category: "Daily Activities", views: 1342 },
               { category: "Caregiver Resources", views: 816 },
             ]}
-            dataKeys={[{ key: "views", color: "#3B82F6", label: "Views" }]}
+            dataKeys={[{ key: "views", color: "#6366F1", label: "Views" }]}
             xAxisKey="category"
           />
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Top Performing Content</h3>
+            <div className="space-y-4">
+              {[
+                { title: "Understanding Memory Care", views: 1245, trend: "+18%" },
+                { title: "Daily Exercise Guide", views: 987, trend: "+12%" },
+                { title: "Nutrition Tips for Seniors", views: 856, trend: "+8%" },
+                { title: "Communication Strategies", views: 723, trend: "+15%" },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                      {idx + 1}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{item.title}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{item.views.toLocaleString()} views</p>
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{item.trend}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6">
+        {/* Article Performance Table */}
+        <div className="mt-8">
           <DataTable
             data={mockArticlePerformance}
             columns={columns}

@@ -1,7 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
-import { FileText, Download, Calendar } from "lucide-react";
+import { FileText, Download, Calendar, Clock, BarChart3, Users, Heart, Bell } from "lucide-react";
 import { toast } from "sonner";
 
 export default function ReportsPage() {
@@ -12,36 +12,57 @@ export default function ReportsPage() {
     }, 2000);
   };
 
-  return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar />
-      <main className="ml-[240px] flex-1 py-6 px-8">
-        <TopNav title="Reports & Export" />
+  const reports = [
+    { name: "Weekly Analytics Summary", desc: "Complete overview of last 7 days", format: "PDF", icon: BarChart3, color: "indigo" },
+    { name: "Monthly User Growth", desc: "User registration and retention metrics", format: "Excel", icon: Users, color: "emerald" },
+    { name: "Feature Usage Report", desc: "Detailed breakdown of feature adoption", format: "Excel", icon: BarChart3, color: "purple" },
+    { name: "Health Insights Report", desc: "Anonymized symptom and mood analytics", format: "PDF", icon: Heart, color: "rose" },
+    { name: "Content Performance", desc: "Article views, completions, and bookmarks", format: "Excel", icon: FileText, color: "amber" },
+    { name: "Reminder Analytics", desc: "Medication and voice reminder statistics", format: "Excel", icon: Bell, color: "cyan" },
+  ];
 
+  return (
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+      <Sidebar />
+      <main className="ml-60 flex-1 py-6 px-8">
+        <TopNav title="Reports & Export" subtitle="Generate and download analytics reports" />
+
+        {/* Predefined Reports */}
         <div className="mt-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Predefined Reports</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Predefined Reports</h2>
+            <span className="text-sm text-slate-500 dark:text-slate-400">6 reports available</span>
+          </div>
           <div className="grid grid-cols-3 gap-6">
-            {[
-              { name: "Weekly Analytics Summary", desc: "Complete overview of last 7 days", format: "PDF" },
-              { name: "Monthly User Growth", desc: "User registration and retention metrics", format: "Excel" },
-              { name: "Feature Usage Report", desc: "Detailed breakdown of feature adoption", format: "Excel" },
-              { name: "Health Insights Report", desc: "Anonymized symptom and mood analytics", format: "PDF" },
-              { name: "Content Performance", desc: "Article views, completions, and bookmarks", format: "Excel" },
-              { name: "Reminder Analytics", desc: "Medication and voice reminder statistics", format: "Excel" },
-            ].map((report, idx) => (
-              <div key={idx} className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+            {reports.map((report, idx) => (
+              <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center shrink-0">
-                    <FileText size={20} className="text-blue-600 dark:text-blue-400" />
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${report.color === 'indigo' ? 'bg-indigo-100 dark:bg-indigo-500/20' :
+                      report.color === 'emerald' ? 'bg-emerald-100 dark:bg-emerald-500/20' :
+                        report.color === 'purple' ? 'bg-purple-100 dark:bg-purple-500/20' :
+                          report.color === 'rose' ? 'bg-rose-100 dark:bg-rose-500/20' :
+                            report.color === 'amber' ? 'bg-amber-100 dark:bg-amber-500/20' :
+                              'bg-cyan-100 dark:bg-cyan-500/20'
+                    }`}>
+                    <report.icon size={22} className={
+                      report.color === 'indigo' ? 'text-indigo-600 dark:text-indigo-400' :
+                        report.color === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' :
+                          report.color === 'purple' ? 'text-purple-600 dark:text-purple-400' :
+                            report.color === 'rose' ? 'text-rose-600 dark:text-rose-400' :
+                              report.color === 'amber' ? 'text-amber-600 dark:text-amber-400' :
+                                'text-cyan-600 dark:text-cyan-400'
+                    } />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1">{report.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{report.desc}</p>
+                    <h3 className="font-semibold text-slate-900 dark:text-white mb-1">{report.name}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">{report.desc}</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-gray-400">{report.format}</span>
+                      <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded-full">
+                        {report.format}
+                      </span>
                       <button
                         onClick={() => handleGenerate(report.name)}
-                        className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
                       >
                         <Download size={14} />
                         Generate
@@ -54,24 +75,28 @@ export default function ReportsPage() {
           </div>
         </div>
 
+        {/* Data Export */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Data Export</h2>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <div className="grid grid-cols-2 gap-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Data Export</h2>
+            <span className="text-sm text-slate-500 dark:text-slate-400">Export raw data</span>
+          </div>
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <div className="grid grid-cols-2 gap-4">
               {[
                 { name: "Export Users", desc: "Complete user list with all metrics" },
                 { name: "Export Articles", desc: "Article performance data" },
                 { name: "Export Symptoms", desc: "Anonymized symptom analytics" },
                 { name: "Export Moods", desc: "Anonymized mood analytics" },
               ].map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between p-4 border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                <div key={idx} className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">{item.name}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{item.desc}</p>
+                    <h4 className="font-medium text-slate-900 dark:text-white">{item.name}</h4>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{item.desc}</p>
                   </div>
                   <button
                     onClick={() => toast.success(`Exporting ${item.name}...`)}
-                    className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
                   >
                     Export CSV
                   </button>
@@ -81,16 +106,29 @@ export default function ReportsPage() {
           </div>
         </div>
 
+        {/* Scheduled Reports */}
         <div className="mt-8">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Scheduled Reports</h2>
-          <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <Calendar size={20} className="text-gray-400" />
-              <p className="text-sm text-gray-600 dark:text-gray-400">Set up automated weekly or monthly reports delivered to your email</p>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Scheduled Reports</h2>
+          </div>
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
+                <Clock size={24} className="text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Automated Report Delivery</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Set up weekly or monthly reports delivered to your email</p>
+              </div>
             </div>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-              Configure Scheduled Reports
-            </button>
+            <div className="flex gap-3">
+              <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                Configure Schedule
+              </button>
+              <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                View History
+              </button>
+            </div>
           </div>
         </div>
       </main>

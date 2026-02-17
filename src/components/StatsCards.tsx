@@ -11,16 +11,15 @@ export default function StatsCards() {
   return (
     <div className="grid grid-cols-2 gap-3">
       {stats.map((s, i) => (
-        <div key={i} className="bg-white border border-gray-100 rounded-2xl p-4">
-          <p className="text-[11px] text-gray-400 font-medium mb-1.5">{s.label}</p>
-          <span className="text-[22px] font-bold text-gray-900">{s.value}</span>
+        <div key={i} className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-4 hover:shadow-lg transition-shadow">
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium mb-1.5">{s.label}</p>
+          <span className="text-[22px] font-bold text-slate-900 dark:text-white">{s.value}</span>
           <div className="mt-2.5">
             <span
-              className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg border ${
-                s.up
-                  ? "text-emerald-500 border-gray-100"
-                  : "text-red-400 border-gray-100"
-              }`}
+              className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg ${s.up
+                  ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
+                  : "text-rose-600 dark:text-rose-400 bg-rose-500/10"
+                }`}
             >
               {s.up ? <ArrowUp size={10} /> : <ArrowDown size={10} />}
               {s.change}%

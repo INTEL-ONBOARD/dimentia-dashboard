@@ -28,16 +28,15 @@ export default function NFTCards() {
     <div>
       {/* Header + Category Tabs */}
       <div className="flex items-center justify-between mt-8 mb-5">
-        <h3 className="text-[20px] font-bold text-gray-900">Active Projects</h3>
+        <h3 className="text-[20px] font-bold text-slate-900 dark:text-white">Active Projects</h3>
         <div className="flex gap-1">
           {categories.map((cat, i) => (
             <button
               key={cat}
-              className={`px-4 py-1.5 rounded-xl text-[13px] font-medium transition-all ${
-                i === 0
-                  ? "text-violet-600 border border-violet-200 bg-violet-50"
-                  : "text-gray-400 hover:text-gray-600"
-              }`}
+              className={`px-4 py-1.5 rounded-xl text-[13px] font-medium transition-all ${i === 0
+                  ? "text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30"
+                  : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                }`}
             >
               {cat}
             </button>
@@ -50,7 +49,7 @@ export default function NFTCards() {
         {projects.map((item, idx) => (
           <div
             key={item.id}
-            className="bg-white border border-gray-100 rounded-2xl overflow-hidden group"
+            className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl overflow-hidden group hover:shadow-xl transition-shadow"
           >
             {/* Cover */}
             <div
@@ -60,7 +59,7 @@ export default function NFTCards() {
               <div className="w-32 h-32 rounded-full bg-white/20" />
 
               {idx === 0 && (
-                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl px-6 py-2.5 text-[13px] font-semibold text-gray-800 shadow-xl">
+                <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-slate-900 rounded-2xl px-6 py-2.5 text-[13px] font-semibold text-slate-800 dark:text-white shadow-xl">
                   View Details
                 </button>
               )}
@@ -75,16 +74,16 @@ export default function NFTCards() {
             {/* Info */}
             <div className="p-4">
               <div className="flex items-center justify-between mb-2.5">
-                <span className="font-bold text-[14px] text-gray-900">{item.title}</span>
-                <span className="text-[11px] text-gray-400 font-medium">{item.status}</span>
+                <span className="font-bold text-[14px] text-slate-900 dark:text-white">{item.title}</span>
+                <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">{item.status}</span>
               </div>
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-full bg-gray-200" />
-                <span className="text-[12px] text-gray-400">{item.team}</span>
+                <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700" />
+                <span className="text-[12px] text-slate-400 dark:text-slate-500">{item.team}</span>
               </div>
-              <div className="flex items-center justify-between pt-2.5 border-t border-gray-50">
-                <span className="text-[12px] text-gray-400">Progress</span>
-                <span className="text-[14px] font-bold text-violet-600">{item.progress}</span>
+              <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                <span className="text-[12px] text-slate-400 dark:text-slate-500">Progress</span>
+                <span className="text-[14px] font-bold text-indigo-600 dark:text-indigo-400">{item.progress}</span>
               </div>
             </div>
           </div>

@@ -6,24 +6,25 @@ import BaseBarChart from "@/components/charts/BaseBarChart";
 import MetricCard from "@/components/cards/MetricCard";
 import { useReminders } from "@/hooks/useApi";
 import type { RemindersResponse } from "@/lib/types";
-import { Bell, BellRing, Mic, CheckCircle } from "lucide-react";
+import { Bell, BellRing, Mic, CheckCircle, Clock, Calendar, AlertTriangle } from "lucide-react";
 
 export default function RemindersPage() {
-  // Fetch real data with React Query
   const { data: remindersData, isLoading: remindersLoading } = useReminders() as { data: RemindersResponse | undefined; isLoading: boolean };
-  return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      <Sidebar />
-      <main className="ml-[240px] flex-1 py-6 px-8">
-        <TopNav title="Reminder Analytics" />
 
+  return (
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
+      <Sidebar />
+      <main className="ml-60 flex-1 py-6 px-8">
+        <TopNav title="Reminder Analytics" subtitle="Track medication and voice reminder statistics" />
+
+        {/* Key Metrics */}
         <div className="grid grid-cols-4 gap-6 mt-6">
           <MetricCard
             label="Total Medication Reminders"
             value={remindersData?.totalReminders ?? 0}
             change={remindersData?.remindersChange ?? 0}
             icon={Bell}
-            color="blue"
+            color="indigo"
             loading={remindersLoading}
           />
           <MetricCard
@@ -52,7 +53,8 @@ export default function RemindersPage() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mt-6">
+        {/* Charts */}
+        <div className="grid grid-cols-2 gap-6 mt-8">
           <BasePieChart
             title="Active vs Inactive Reminders"
             data={remindersData?.statusDistribution ?? []}
@@ -61,10 +63,77 @@ export default function RemindersPage() {
           <BaseBarChart
             title="Reminders by Day of Week"
             data={remindersData?.byDayOfWeek ?? []}
-            dataKeys={[{ key: "count", color: "#3B82F6", label: "Reminders" }]}
+            dataKeys={[{ key: "count", color: "#6366F1", label: "Reminders" }]}
             xAxisKey="day"
             loading={remindersLoading}
           />
+        </div>
+
+        {/* Reminder Insights */}
+        <div className="grid grid-cols-3 gap-6 mt-8">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
+                <Clock size={24} className="text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Peak Time</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Most active reminder time</p>
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">8:00 AM</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Morning medication reminders</p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center">
+                <Calendar size={24} className="text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Avg. Per User</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Reminders per patient</p>
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">4.2</p>
+            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2">↑ 0.5 from last month</p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center">
+                <AlertTriangle size={24} className="text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-white">Missed Today</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Reminders not acknowledged</p>
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">12</p>
+            <p className="text-sm text-amber-600 dark:text-amber-400 mt-2">3% of total reminders</p>
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="mt-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Reminder Types Distribution</h3>
+          <div className="grid grid-cols-4 gap-4">
+            {[
+              { type: "Medication", count: 456, color: "indigo" },
+              { type: "Appointment", count: 89, color: "emerald" },
+              { type: "Exercise", count: 67, color: "purple" },
+              { type: "Other", count: 45, color: "amber" },
+            ].map((item, idx) => (
+              <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
+                <div className={`w-3 h-3 rounded-full mb-2 ${item.color === 'indigo' ? 'bg-indigo-500' :
+                    item.color === 'emerald' ? 'bg-emerald-500' :
+                      item.color === 'purple' ? 'bg-purple-500' : 'bg-amber-500'
+                  }`} />
+                <p className="text-sm text-slate-500 dark:text-slate-400">{item.type}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white">{item.count}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </div>
