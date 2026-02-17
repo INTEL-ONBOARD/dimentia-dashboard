@@ -124,7 +124,7 @@ export default function DataTable({
             {exportable && (
               <button
                 onClick={handleExport}
-                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl text-sm font-medium hover:bg-purple-700 transition-colors"
               >
                 <Download size={16} />
                 Export CSV
@@ -164,7 +164,7 @@ export default function DataTable({
                     {column.sortable && (
                       <button
                         onClick={() => handleSort(column.key)}
-                        className="hover:text-indigo-600 transition-colors"
+                        className="hover:text-purple-600 transition-colors"
                       >
                         {sortKey === column.key ? (
                           sortOrder === "asc" ? (
@@ -245,8 +245,8 @@ export default function DataTable({
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === page
-                          ? "bg-indigo-600 text-white"
-                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                        ? "bg-purple-600 text-white"
+                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
                     >
                       {page}

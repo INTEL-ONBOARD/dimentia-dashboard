@@ -73,8 +73,8 @@ export default function RemindersPage() {
         <div className="grid grid-cols-3 gap-6 mt-8">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
-                <Clock size={24} className="text-indigo-600 dark:text-indigo-400" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                <Clock size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Peak Time</h3>
@@ -87,8 +87,8 @@ export default function RemindersPage() {
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center">
-                <Calendar size={24} className="text-emerald-600 dark:text-emerald-400" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                <Calendar size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Avg. Per User</h3>
@@ -96,13 +96,13 @@ export default function RemindersPage() {
               </div>
             </div>
             <p className="text-3xl font-bold text-slate-900 dark:text-white">4.2</p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2">↑ 0.5 from last month</p>
+            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 0.5 from last month</p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center">
-                <AlertTriangle size={24} className="text-amber-600 dark:text-amber-400" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                <AlertTriangle size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Missed Today</h3>
@@ -110,7 +110,7 @@ export default function RemindersPage() {
               </div>
             </div>
             <p className="text-3xl font-bold text-slate-900 dark:text-white">12</p>
-            <p className="text-sm text-amber-600 dark:text-amber-400 mt-2">3% of total reminders</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">3% of total reminders</p>
           </div>
         </div>
 
@@ -119,16 +119,13 @@ export default function RemindersPage() {
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Reminder Types Distribution</h3>
           <div className="grid grid-cols-4 gap-4">
             {[
-              { type: "Medication", count: 456, color: "indigo" },
-              { type: "Appointment", count: 89, color: "emerald" },
+              { type: "Medication", count: 456, color: "purple" },
+              { type: "Appointment", count: 89, color: "purple" },
               { type: "Exercise", count: 67, color: "purple" },
-              { type: "Other", count: 45, color: "amber" },
+              { type: "Other", count: 45, color: "purple" },
             ].map((item, idx) => (
               <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                <div className={`w-3 h-3 rounded-full mb-2 ${item.color === 'indigo' ? 'bg-indigo-500' :
-                    item.color === 'emerald' ? 'bg-emerald-500' :
-                      item.color === 'purple' ? 'bg-purple-500' : 'bg-amber-500'
-                  }`} />
+                <div className="w-3 h-3 rounded-full mb-2 bg-purple-500" />
                 <p className="text-sm text-slate-500 dark:text-slate-400">{item.type}</p>
                 <p className="text-2xl font-bold text-slate-900 dark:text-white">{item.count}</p>
               </div>

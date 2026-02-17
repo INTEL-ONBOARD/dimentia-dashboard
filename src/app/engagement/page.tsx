@@ -27,7 +27,7 @@ export default function EngagementPage() {
             value={sessionsData?.totalViews ?? 0}
             change={sessionsData?.viewsChange ?? 0}
             icon={Eye}
-            color="indigo"
+            color="purple"
             loading={sessionsLoading}
           />
           <MetricCard
@@ -35,7 +35,7 @@ export default function EngagementPage() {
             value={articlesData?.totalCompletions ?? 0}
             change={articlesData?.completionsChange ?? 0}
             icon={CheckCircle}
-            color="emerald"
+            color="purple"
             loading={articlesLoading}
           />
           <MetricCard
@@ -51,7 +51,7 @@ export default function EngagementPage() {
             value={articlesData?.totalBookmarks ?? 0}
             change={articlesData?.bookmarksChange ?? 0}
             icon={Bookmark}
-            color="amber"
+            color="purple"
             loading={articlesLoading}
           />
         </div>
@@ -110,10 +110,10 @@ export default function EngagementPage() {
                       <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300">{article.completions?.toLocaleString()}</td>
                       <td className="px-6 py-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${article.completionRate >= 80
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400'
-                            : article.completionRate >= 60
-                              ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400'
-                              : 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-400'
+                          ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400'
+                          : article.completionRate >= 60
+                            ? 'bg-purple-100/70 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400'
+                            : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                           }`}>
                           {article.completionRate}%
                         </span>
@@ -131,8 +131,8 @@ export default function EngagementPage() {
         <div className="grid grid-cols-2 gap-6 mt-8">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
-                <Clock size={20} className="text-indigo-600 dark:text-indigo-400" />
+              <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                <Clock size={20} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Average Session Duration</h3>
@@ -140,7 +140,7 @@ export default function EngagementPage() {
               </div>
             </div>
             <p className="text-4xl font-bold text-slate-900 dark:text-white">12:45</p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2">↑ 8% from last week</p>
+            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 8% from last week</p>
           </div>
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
@@ -153,7 +153,7 @@ export default function EngagementPage() {
               </div>
             </div>
             <p className="text-4xl font-bold text-slate-900 dark:text-white">87.3</p>
-            <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2">↑ 5.2 points this month</p>
+            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 5.2 points this month</p>
           </div>
         </div>
       </main>

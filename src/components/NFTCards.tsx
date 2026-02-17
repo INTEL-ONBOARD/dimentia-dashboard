@@ -34,8 +34,8 @@ export default function NFTCards() {
             <button
               key={cat}
               className={`px-4 py-1.5 rounded-xl text-[13px] font-medium transition-all ${i === 0
-                  ? "text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/30"
-                  : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                ? "text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/30"
+                : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
                 }`}
             >
               {cat}
@@ -83,7 +83,7 @@ export default function NFTCards() {
               </div>
               <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800">
                 <span className="text-[12px] text-slate-400 dark:text-slate-500">Progress</span>
-                <span className="text-[14px] font-bold text-indigo-600 dark:text-indigo-400">{item.progress}</span>
+                <span className="text-[14px] font-bold text-purple-600 dark:text-purple-400">{item.progress}</span>
               </div>
             </div>
           </div>

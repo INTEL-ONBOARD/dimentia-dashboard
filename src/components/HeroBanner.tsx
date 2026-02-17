@@ -16,7 +16,7 @@ export default function HeroBanner() {
           <button className="px-7 py-2.5 rounded-2xl border-2 border-white/80 text-white bg-white/10 backdrop-blur-sm text-sm font-semibold hover:bg-white/20 transition-all">
             Explore
           </button>
-          <button className="px-7 py-2.5 rounded-2xl bg-white text-indigo-600 text-sm font-semibold hover:bg-white/90 transition-all shadow-lg shadow-black/20">
+          <button className="px-7 py-2.5 rounded-2xl bg-white text-purple-600 text-sm font-semibold hover:bg-white/90 transition-all shadow-lg shadow-black/20">
             Get Started
           </button>
         </div>

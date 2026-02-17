@@ -17,8 +17,8 @@ export default function StatsCards() {
           <div className="mt-2.5">
             <span
               className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg ${s.up
-                  ? "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10"
-                  : "text-rose-600 dark:text-rose-400 bg-rose-500/10"
+                ? "text-purple-600 dark:text-purple-400 bg-purple-500/10"
+                : "text-rose-600 dark:text-rose-400 bg-rose-500/10"
                 }`}
             >
               {s.up ? <ArrowUp size={10} /> : <ArrowDown size={10} />}

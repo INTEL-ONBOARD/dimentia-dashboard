@@ -2,6 +2,7 @@
 import { Search, Bell, User, Settings as SettingsIcon, LogOut, Command } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useNotificationStore } from "@/store/useNotificationStore";
 import { formatDistanceToNow } from "date-fns";
@@ -59,7 +60,7 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{subtitle}</p>
         ) : (
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -107,7 +108,7 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
                   <p className="text-xs text-slate-500 mt-0.5">{unreadCount} unread messages</p>
                 </div>
                 {notifications.length > 0 && (
-                  <button onClick={markAllAsRead} className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-medium px-3 py-1.5 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
+                  <button onClick={markAllAsRead} className="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
                     Mark all read
                   </button>
                 )}
@@ -133,14 +134,14 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
                           setShowNotifications(false);
                         }
                       }}
-                      className={`p-4 border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all ${!notification.read ? 'bg-indigo-50/50 dark:bg-indigo-900/10' : ''
+                      className={`p-4 border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer transition-all ${!notification.read ? 'bg-purple-50/50 dark:bg-purple-900/10' : ''
                         }`}
                     >
                       <div className="flex gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <p className="text-sm font-semibold text-slate-900 dark:text-white">{notification.title}</p>
-                            {!notification.read && <span className="w-2 h-2 bg-indigo-600 rounded-full flex-shrink-0 mt-1.5 animate-pulse" />}
+                            {!notification.read && <span className="w-2 h-2 bg-purple-600 rounded-full flex-shrink-0 mt-1.5 animate-pulse" />}
                           </div>
                           <p className="text-xs text-slate-600 dark:text-slate-400 mb-2 line-clamp-2">{notification.message}</p>
                           <p className="text-xs text-slate-400 dark:text-slate-500">
@@ -160,7 +161,7 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
                       router.push('/notifications');
                       setShowNotifications(false);
                     }}
-                    className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-medium w-full text-center py-2 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors"
+                    className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium w-full text-center py-2 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
                   >
                     View all notifications
                   </button>
@@ -179,8 +180,14 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
               <p className="text-sm font-semibold text-slate-900 dark:text-white">{user?.name || 'Admin User'}</p>
               <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{user?.role || 'admin'}</p>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white font-semibold shadow-lg shadow-indigo-500/30">
-              {user?.name?.charAt(0) || 'A'}
+            <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-lg shadow-indigo-500/30">
+              <Image
+                src="/woman.png"
+                alt="User Avatar"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover scale-110"
+              />
             </div>
           </button>
 

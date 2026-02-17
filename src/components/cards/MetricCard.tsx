@@ -22,16 +22,16 @@ export default function MetricCard({
 }: MetricCardProps) {
   const colorConfig = {
     blue: {
-      bg: "bg-blue-500/10 dark:bg-blue-500/20",
-      text: "text-blue-600 dark:text-blue-400",
-      glow: "shadow-blue-500/20",
-      gradient: "from-blue-500 to-cyan-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     green: {
-      bg: "bg-emerald-500/10 dark:bg-emerald-500/20",
-      text: "text-emerald-600 dark:text-emerald-400",
-      glow: "shadow-emerald-500/20",
-      gradient: "from-emerald-500 to-teal-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     purple: {
       bg: "bg-purple-500/10 dark:bg-purple-500/20",
@@ -40,10 +40,10 @@ export default function MetricCard({
       gradient: "from-purple-500 to-pink-500",
     },
     amber: {
-      bg: "bg-amber-500/10 dark:bg-amber-500/20",
-      text: "text-amber-600 dark:text-amber-400",
-      glow: "shadow-amber-500/20",
-      gradient: "from-amber-500 to-orange-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     red: {
       bg: "bg-rose-500/10 dark:bg-rose-500/20",
@@ -52,22 +52,22 @@ export default function MetricCard({
       gradient: "from-rose-500 to-pink-500",
     },
     indigo: {
-      bg: "bg-indigo-500/10 dark:bg-indigo-500/20",
-      text: "text-indigo-600 dark:text-indigo-400",
-      glow: "shadow-indigo-500/20",
-      gradient: "from-indigo-500 to-purple-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     cyan: {
-      bg: "bg-cyan-500/10 dark:bg-cyan-500/20",
-      text: "text-cyan-600 dark:text-cyan-400",
-      glow: "shadow-cyan-500/20",
-      gradient: "from-cyan-500 to-blue-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     emerald: {
-      bg: "bg-emerald-500/10 dark:bg-emerald-500/20",
-      text: "text-emerald-600 dark:text-emerald-400",
-      glow: "shadow-emerald-500/20",
-      gradient: "from-emerald-500 to-green-500",
+      bg: "bg-purple-500/10 dark:bg-purple-500/20",
+      text: "text-purple-600 dark:text-purple-400",
+      glow: "shadow-purple-500/20",
+      gradient: "from-purple-500 to-purple-600",
     },
     rose: {
       bg: "bg-rose-500/10 dark:bg-rose-500/20",
@@ -105,13 +105,13 @@ export default function MetricCard({
 
       <div className="relative">
         <div className="flex items-center justify-between mb-5">
-          <div className={`w-14 h-14 rounded-2xl ${colors.bg} flex items-center justify-center shadow-lg ${colors.glow}`}>
+          <div className={`w-14 h-14 rounded-2xl ${colors.bg} flex items-center justify-center`}>
             <Icon size={24} strokeWidth={1.8} className={colors.text} />
           </div>
           {change !== undefined && (
             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold ${changeIsPositive
-                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+              ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400'
+              : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
               }`}>
               {changeIsPositive ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
               {Math.abs(change)}%

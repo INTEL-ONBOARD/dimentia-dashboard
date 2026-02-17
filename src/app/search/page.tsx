@@ -62,8 +62,8 @@ function SearchResults() {
             <button
               key={filter}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${filter === 'All'
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
+                ? 'bg-purple-600 text-white'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
             >
               {filter}
@@ -89,7 +89,7 @@ function SearchResults() {
             {results.users.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Users size={18} className="text-blue-600 dark:text-blue-400" />
+                  <Users size={18} className="text-purple-600 dark:text-purple-400" />
                   <h3 className="font-semibold text-slate-900 dark:text-white">
                     Users ({results.users.length})
                   </h3>
@@ -112,7 +112,7 @@ function SearchResults() {
                             {user.email}
                           </p>
                         </div>
-                        <span className="px-2.5 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 text-xs font-medium rounded-lg">
+                        <span className="px-2.5 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-xs font-medium rounded-lg">
                           {user.role}
                         </span>
                       </div>
@@ -126,7 +126,7 @@ function SearchResults() {
             {results.articles.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <FileText size={18} className="text-emerald-600 dark:text-emerald-400" />
+                  <FileText size={18} className="text-purple-600 dark:text-purple-400" />
                   <h3 className="font-semibold text-slate-900 dark:text-white">
                     Articles ({results.articles.length})
                   </h3>
@@ -139,8 +139,8 @@ function SearchResults() {
                     >
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center shrink-0">
-                            <FileText size={18} className="text-emerald-600 dark:text-emerald-400" />
+                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                            <FileText size={18} className="text-purple-600 dark:text-purple-400" />
                           </div>
                           <div>
                             <h4 className="font-medium text-slate-900 dark:text-white">
@@ -265,25 +265,25 @@ function SearchResults() {
         </div>
 
         {/* Search Tips */}
-        <div className="bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-xl p-5">
-          <h3 className="font-semibold text-indigo-900 dark:text-indigo-300 mb-3">
+        <div className="bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 rounded-xl p-5">
+          <h3 className="font-semibold text-purple-900 dark:text-purple-300 mb-3">
             Search Tips
           </h3>
-          <ul className="space-y-2 text-sm text-indigo-700 dark:text-indigo-400">
+          <ul className="space-y-2 text-sm text-purple-700 dark:text-purple-400">
             <li className="flex items-start gap-2">
-              <span className="text-indigo-500">•</span>
+              <span className="text-purple-500">•</span>
               Use specific keywords
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-indigo-500">•</span>
+              <span className="text-purple-500">•</span>
               Try different combinations
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-indigo-500">•</span>
+              <span className="text-purple-500">•</span>
               Use filters to narrow results
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-indigo-500">•</span>
+              <span className="text-purple-500">•</span>
               Check spelling variations
             </li>
           </ul>

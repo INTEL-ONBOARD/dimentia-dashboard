@@ -49,7 +49,7 @@ export default function BaseLineChart({
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
           <span className="text-xs text-slate-500 dark:text-slate-400">Live</span>
         </div>
       </div>

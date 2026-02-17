@@ -26,8 +26,8 @@ export default function UsersPage() {
       key: "role", label: "Role", sortable: true,
       render: (value: string) => (
         <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${value === 'Patient'
-            ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400'
-            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400'
+          ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400'
+          : 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400'
           }`}>
           {value}
         </span>
@@ -41,8 +41,8 @@ export default function UsersPage() {
       key: "status", label: "Status", sortable: true,
       render: (value: string) => (
         <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${value === 'Active'
-            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400'
-            : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400'
+          ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400'
+          : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400'
           }`}>
           {value}
         </span>

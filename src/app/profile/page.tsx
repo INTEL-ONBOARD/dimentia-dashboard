@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
+import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { User, Mail, Phone, MapPin, Calendar, Shield, Key, Smartphone, Download, Clock, Activity, Lock } from "lucide-react";
 
@@ -19,8 +20,14 @@ export default function ProfilePage() {
             {/* Profile Header */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
               <div className="flex items-start gap-6">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shrink-0 shadow-lg shadow-indigo-500/30">
-                  {user?.name.charAt(0)}
+                <div className="w-20 h-20 rounded-full overflow-hidden shrink-0 shadow-lg shadow-indigo-500/30">
+                  <Image
+                    src="/woman.png"
+                    alt="User Avatar"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover scale-110"
+                  />
                 </div>
                 <div className="flex-1">
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
@@ -30,7 +37,7 @@ export default function ProfilePage() {
                     {user?.role}
                   </p>
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                    <button className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
                       Edit Profile
                     </button>
                     <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
@@ -49,8 +56,8 @@ export default function ProfilePage() {
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center shrink-0">
-                      <User size={18} className="text-blue-600 dark:text-blue-400" />
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <User size={18} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Full Name</p>
@@ -61,8 +68,8 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center shrink-0">
-                      <Mail size={18} className="text-emerald-600 dark:text-emerald-400" />
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <Mail size={18} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Email</p>
@@ -85,8 +92,8 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center shrink-0">
-                      <MapPin size={18} className="text-amber-600 dark:text-amber-400" />
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <MapPin size={18} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Location</p>
@@ -104,8 +111,8 @@ export default function ProfilePage() {
                 </h3>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center shrink-0">
-                      <Shield size={18} className="text-indigo-600 dark:text-indigo-400" />
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <Shield size={18} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Role</p>
@@ -116,8 +123,8 @@ export default function ProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-cyan-100 dark:bg-cyan-500/20 flex items-center justify-center shrink-0">
-                      <Calendar size={18} className="text-cyan-600 dark:text-cyan-400" />
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                      <Calendar size={18} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Member Since</p>
@@ -130,7 +137,7 @@ export default function ProfilePage() {
                   <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
                     <div className="flex items-center justify-between mb-3">
                       <p className="text-sm text-slate-500 dark:text-slate-400">Account Status</p>
-                      <span className="px-2.5 py-1 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded-lg">
+                      <span className="px-2.5 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-xs font-medium rounded-lg">
                         Active
                       </span>
                     </div>
@@ -152,10 +159,10 @@ export default function ProfilePage() {
               </h3>
               <div className="grid grid-cols-4 gap-4">
                 {[
-                  { value: 156, label: "Logins This Month", color: "text-blue-600 dark:text-blue-400" },
-                  { value: 42, label: "Reports Generated", color: "text-emerald-600 dark:text-emerald-400" },
+                  { value: 156, label: "Logins This Month", color: "text-purple-600 dark:text-purple-400" },
+                  { value: 42, label: "Reports Generated", color: "text-purple-600 dark:text-purple-400" },
                   { value: 89, label: "Settings Changes", color: "text-purple-600 dark:text-purple-400" },
-                  { value: 23, label: "Exports Created", color: "text-amber-600 dark:text-amber-400" },
+                  { value: 23, label: "Exports Created", color: "text-purple-600 dark:text-purple-400" },
                 ].map((stat, idx) => (
                   <div key={idx} className="text-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                     <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
@@ -180,11 +187,7 @@ export default function ProfilePage() {
                 ].map((activity, idx) => (
                   <div key={idx} className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800 last:border-0">
                     <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${activity.type === 'report' ? 'bg-blue-500' :
-                          activity.type === 'settings' ? 'bg-purple-500' :
-                            activity.type === 'export' ? 'bg-emerald-500' :
-                              'bg-amber-500'
-                        }`} />
+                      <div className="w-2 h-2 rounded-full bg-purple-500" />
                       <p className="text-sm text-slate-700 dark:text-slate-300">{activity.action}</p>
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400">{activity.time}</p>
@@ -203,7 +206,7 @@ export default function ProfilePage() {
                 <div className="relative w-28 h-28">
                   <svg className="w-28 h-28 transform -rotate-90">
                     <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="8" fill="none" className="text-slate-100 dark:text-slate-800" />
-                    <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="8" fill="none" strokeDasharray="301.6" strokeDashoffset="90" className="text-amber-500" strokeLinecap="round" />
+                    <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="8" fill="none" strokeDasharray="301.6" strokeDashoffset="90" className="text-purple-500" strokeLinecap="round" />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-2xl font-bold text-slate-900 dark:text-white">70%</span>
@@ -213,7 +216,7 @@ export default function ProfilePage() {
               <p className="text-sm text-slate-500 dark:text-slate-400 text-center mb-4">Your account security could be improved</p>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <div className="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-purple-500 flex items-center justify-center">
                     <span className="text-white text-xs">✓</span>
                   </div>
                   <span className="text-slate-600 dark:text-slate-400">Strong password</span>
@@ -258,15 +261,15 @@ export default function ProfilePage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center">
-                      <Activity size={14} className="text-emerald-600 dark:text-emerald-400" />
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                      <Activity size={14} className="text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-slate-900 dark:text-white">MacBook Pro</p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Current session</p>
                     </div>
                   </div>
-                  <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+                  <span className="w-2 h-2 bg-purple-500 rounded-full" />
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">

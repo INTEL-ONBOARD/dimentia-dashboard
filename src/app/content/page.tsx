@@ -23,9 +23,9 @@ export default function ContentPage() {
     {
       key: "completionRate", label: "Completion Rate", sortable: true,
       render: (value: number) => (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${value >= 80 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400' :
-            value >= 70 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-400' :
-              'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400'
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${value >= 80 ? 'bg-purple-100 text-purple-700 dark:bg-purple-500/20 dark:text-purple-400' :
+          value >= 70 ? 'bg-purple-100/70 text-purple-600 dark:bg-purple-500/15 dark:text-purple-400' :
+            'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
           }`}>
           {value}%
         </span>
@@ -47,14 +47,14 @@ export default function ContentPage() {
             value={4847}
             change={12}
             icon={Eye}
-            color="indigo"
+            color="purple"
           />
           <MetricCard
             label="Total Completions"
             value={3716}
             change={8}
             icon={FileCheck}
-            color="emerald"
+            color="purple"
           />
           <MetricCard
             label="Total Bookmarks"
@@ -68,7 +68,7 @@ export default function ContentPage() {
             value={37160}
             change={8}
             icon={Award}
-            color="amber"
+            color="purple"
           />
         </div>
 
@@ -95,7 +95,7 @@ export default function ContentPage() {
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                    <div className="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center text-sm font-bold text-purple-600 dark:text-purple-400">
                       {idx + 1}
                     </div>
                     <div>
@@ -103,7 +103,7 @@ export default function ContentPage() {
                       <p className="text-xs text-slate-500 dark:text-slate-400">{item.views.toLocaleString()} views</p>
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">{item.trend}</span>
+                  <span className="text-sm font-medium text-purple-600 dark:text-purple-400">{item.trend}</span>
                 </div>
               ))}
             </div>

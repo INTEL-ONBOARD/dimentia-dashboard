@@ -36,8 +36,8 @@ export default function SettingsPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as typeof activeTab)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${activeTab === tab.id
-                      ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
                     }`}
                 >
                   <tab.icon size={16} />
@@ -63,23 +63,23 @@ export default function SettingsPage() {
                       <button
                         key={theme.value}
                         className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${settings.theme === theme.value
-                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10'
-                            : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
+                          ? 'border-purple-500 bg-purple-50 dark:bg-purple-500/10'
+                          : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                           }`}
                         onClick={() => updateSettings({ theme: theme.value as 'light' | 'dark' | 'system' })}
                       >
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${settings.theme === theme.value
-                            ? 'bg-indigo-500 text-white'
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                           }`}>
                           <theme.icon size={20} />
                         </div>
                         <span className={`text-sm font-medium ${settings.theme === theme.value
-                            ? 'text-indigo-600 dark:text-indigo-400'
-                            : 'text-slate-600 dark:text-slate-400'
+                          ? 'text-purple-600 dark:text-purple-400'
+                          : 'text-slate-600 dark:text-slate-400'
                           }`}>{theme.label}</span>
                         {settings.theme === theme.value && (
-                          <Check size={16} className="text-indigo-500 absolute top-2 right-2" />
+                          <Check size={16} className="text-purple-500 absolute top-2 right-2" />
                         )}
                       </button>
                     ))}
@@ -133,7 +133,7 @@ export default function SettingsPage() {
                       </div>
                       <button
                         onClick={() => updateSettings({ chartAnimations: !settings.chartAnimations })}
-                        className={`w-12 h-7 rounded-full transition-colors ${settings.chartAnimations ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-slate-700'
+                        className={`w-12 h-7 rounded-full transition-colors ${settings.chartAnimations ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'
                           }`}
                       >
                         <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${settings.chartAnimations ? 'translate-x-5' : 'translate-x-0'
@@ -150,14 +150,14 @@ export default function SettingsPage() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
-                      <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <RefreshCw size={20} className="text-blue-600 dark:text-blue-400" />
+                      <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <RefreshCw size={20} className="text-purple-600 dark:text-purple-400" />
                       </div>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Clear Cache</span>
                     </button>
                     <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <Database size={20} className="text-emerald-600 dark:text-emerald-400" />
+                      <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Database size={20} className="text-purple-600 dark:text-purple-400" />
                       </div>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Export Data</span>
                     </button>
@@ -202,7 +202,7 @@ export default function SettingsPage() {
                             });
                           }
                         }}
-                        className={`w-12 h-7 rounded-full transition-colors ${(settings.notifications as any)[item.key] ? 'bg-indigo-600' : 'bg-slate-200 dark:bg-slate-700'
+                        className={`w-12 h-7 rounded-full transition-colors ${(settings.notifications as any)[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'
                           }`}
                       >
                         <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${(settings.notifications as any)[item.key] ? 'translate-x-5' : 'translate-x-0'
@@ -232,7 +232,7 @@ export default function SettingsPage() {
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{item.label}</p>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
                         </div>
-                        <button className="w-12 h-7 bg-indigo-600 rounded-full transition-colors">
+                        <button className="w-12 h-7 bg-purple-600 rounded-full transition-colors">
                           <div className="w-5 h-5 bg-white rounded-full shadow-sm translate-x-6 mx-1" />
                         </button>
                       </div>
@@ -263,7 +263,7 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={handleSave}
-                className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/20"
+                className="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors shadow-lg shadow-purple-500/20"
               >
                 Save Changes
               </button>
@@ -313,7 +313,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500 dark:text-slate-400">Environment</span>
-                  <span className="px-2 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 rounded text-xs font-medium">Production</span>
+                  <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 rounded text-xs font-medium">Production</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500 dark:text-slate-400">Last Updated</span>
@@ -322,8 +322,8 @@ export default function SettingsPage() {
                 <div className="flex justify-between">
                   <span className="text-slate-500 dark:text-slate-400">API Status</span>
                   <span className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <span className="font-medium text-emerald-600 dark:text-emerald-400">Online</span>
+                    <span className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                    <span className="font-medium text-purple-600 dark:text-purple-400">Online</span>
                   </span>
                 </div>
               </div>

@@ -19,14 +19,14 @@ export default function HealthInsightsPage() {
         <TopNav title="Health Insights" subtitle="Anonymized health data analytics" />
 
         {/* Privacy Notice */}
-        <div className="mt-6 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 rounded-2xl p-4">
+        <div className="mt-6 bg-purple-50 dark:bg-purple-500/10 border border-purple-200 dark:border-purple-500/20 rounded-2xl p-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center shrink-0">
-              <Shield size={20} className="text-indigo-600 dark:text-indigo-400" />
+            <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+              <Shield size={20} className="text-purple-600 dark:text-purple-400" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-indigo-900 dark:text-indigo-300">Privacy Notice</h3>
-              <p className="text-sm text-indigo-700 dark:text-indigo-400 mt-1">
+              <h3 className="text-sm font-semibold text-purple-900 dark:text-purple-300">Privacy Notice</h3>
+              <p className="text-sm text-purple-700 dark:text-purple-400 mt-1">
                 All health data displayed here is anonymized and aggregated. No individual patient data is identifiable.
               </p>
             </div>
@@ -40,7 +40,7 @@ export default function HealthInsightsPage() {
             value={symptomsData?.totalEntries ?? 0}
             change={symptomsData?.entriesChange ?? 0}
             icon={Activity}
-            color="indigo"
+            color="purple"
             loading={symptomsLoading}
           />
           <MetricCard
@@ -48,7 +48,7 @@ export default function HealthInsightsPage() {
             value={moodsData?.totalEntries ?? 0}
             change={moodsData?.entriesChange ?? 0}
             icon={Smile}
-            color="emerald"
+            color="purple"
             loading={moodsLoading}
           />
           <MetricCard
@@ -64,7 +64,7 @@ export default function HealthInsightsPage() {
             value={symptomsData?.avgSymptomsPerEntry ?? 0}
             change={symptomsData?.avgChange ?? 0}
             icon={TrendingUp}
-            color="amber"
+            color="purple"
             loading={symptomsLoading}
           />
         </div>
@@ -140,8 +140,8 @@ export default function HealthInsightsPage() {
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center">
-                <Smile size={24} className="text-emerald-600 dark:text-emerald-400" />
+              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                <Smile size={24} className="text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900 dark:text-white">Emotional</h3>
@@ -154,7 +154,7 @@ export default function HealthInsightsPage() {
                 <span className="text-sm font-medium text-slate-900 dark:text-white">68%</span>
               </div>
               <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                <div className="bg-emerald-500 h-2 rounded-full" style={{ width: '68%' }} />
+                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '68%' }} />
               </div>
             </div>
           </div>

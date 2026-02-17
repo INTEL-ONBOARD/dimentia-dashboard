@@ -74,11 +74,11 @@ export default function Home() {
         {/* Quick Stats */}
         <div className="grid grid-cols-4 gap-6 mt-8">
           <div className="group relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center">
-                  <BookOpen size={22} className="text-blue-600 dark:text-blue-400" />
+                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
+                  <BookOpen size={22} className="text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Articles Read</p>
@@ -89,7 +89,7 @@ export default function Home() {
                   metrics?.articlesRead ?? 0
                 )}
               </p>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3 flex items-center gap-1 font-medium">
+              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
                 <TrendingUp size={14} />
                 15% from last week
               </p>
@@ -97,11 +97,11 @@ export default function Home() {
           </div>
 
           <div className="group relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-rose-500 to-pink-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-rose-500/10 flex items-center justify-center">
-                  <Heart size={22} className="text-rose-600 dark:text-rose-400" />
+                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
+                  <Heart size={22} className="text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Symptoms Logged</p>
@@ -112,7 +112,7 @@ export default function Home() {
                   metrics?.symptomsLogged ?? 0
                 )}
               </p>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3 flex items-center gap-1 font-medium">
+              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
                 <TrendingUp size={14} />
                 8% from last week
               </p>
@@ -120,11 +120,11 @@ export default function Home() {
           </div>
 
           <div className="group relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all duration-300 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-500 opacity-0 group-hover:opacity-[0.03] transition-opacity" />
             <div className="relative">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center">
-                  <Bell size={22} className="text-amber-600 dark:text-amber-400" />
+                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center">
+                  <Bell size={22} className="text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Active Reminders</p>
@@ -158,7 +158,7 @@ export default function Home() {
                   metrics?.totalPoints?.toLocaleString() ?? '0'
                 )}
               </p>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-3 flex items-center gap-1 font-medium">
+              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
                 <TrendingUp size={14} />
                 23% from last week
               </p>
@@ -170,7 +170,7 @@ export default function Home() {
         <div className="mt-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all duration-300">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Recent Activity</h3>
-            <button className="text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 font-medium px-4 py-2 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
+            <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-4 py-2 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
               View All
             </button>
           </div>
@@ -184,12 +184,8 @@ export default function Home() {
             ].map((activity, idx) => (
               <div key={idx} className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
                 <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${activity.type === 'success' ? 'bg-emerald-500/10' :
-                    activity.type === 'warning' ? 'bg-amber-500/10' : 'bg-indigo-500/10'
-                    }`}>
-                    <div className={`w-2.5 h-2.5 rounded-full ${activity.type === 'success' ? 'bg-emerald-500' :
-                      activity.type === 'warning' ? 'bg-amber-500' : 'bg-indigo-500'
-                      }`} />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10">
+                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-900 dark:text-white">{activity.action}</p>

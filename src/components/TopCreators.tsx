@@ -12,7 +12,7 @@ export default function TopCreators() {
     <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-5">
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-[16px] font-bold text-slate-900 dark:text-white">Top Contributors</h3>
-        <button className="text-[13px] text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-all">
+        <button className="text-[13px] text-slate-500 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-all">
           See All
         </button>
       </div>
@@ -28,8 +28,8 @@ export default function TopCreators() {
             </div>
             <button
               className={`px-4 py-1.5 rounded-xl text-[11px] font-semibold transition-all ${c.following
-                  ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20"
-                  : "border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400"
+                ? "bg-purple-600 text-white shadow-lg shadow-purple-500/20"
+                : "border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-purple-400 hover:text-purple-600 dark:hover:text-purple-400"
                 }`}
             >
               {c.following ? "Following" : "Follow"}

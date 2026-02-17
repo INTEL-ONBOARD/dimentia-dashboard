@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useThemeStore } from "@/store/useThemeStore";
 import { useAuthStore } from "@/store/useAuthStore";
 
@@ -71,8 +72,14 @@ export default function Sidebar() {
       <div>
         {/* Logo */}
         <div className="flex items-center gap-3 mb-8 px-2">
-          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center">
-            <Heart size={18} className="text-white" />
+          <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0">
+            <Image
+              src="/logo.jpeg"
+              alt="DementiaMithura Logo"
+              width={36}
+              height={36}
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
             <h1 className="text-base font-semibold text-slate-900 dark:text-white">
@@ -152,8 +159,14 @@ export default function Sidebar() {
 
         {/* User Profile */}
         <div className="flex items-center gap-3 px-3 py-3 rounded-lg bg-slate-50 dark:bg-slate-800">
-          <div className="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-medium text-sm">
-            {user?.name?.charAt(0) || 'A'}
+          <div className="w-9 h-9 rounded-full overflow-hidden shrink-0">
+            <Image
+              src="/woman.png"
+              alt="User Avatar"
+              width={36}
+              height={36}
+              className="w-full h-full object-cover scale-110"
+            />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-slate-900 dark:text-white truncate">

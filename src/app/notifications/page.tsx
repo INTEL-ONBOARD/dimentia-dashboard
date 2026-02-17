@@ -44,7 +44,7 @@ export default function NotificationsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={markAllAsRead}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
                 >
                   <Check size={16} />
                   Mark All Read
@@ -65,8 +65,8 @@ export default function NotificationsPage() {
                 <button
                   key={filter}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === 'All'
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                     }`}
                 >
                   {filter}
@@ -97,21 +97,17 @@ export default function NotificationsPage() {
                   >
                     <div className="flex items-start gap-4">
                       <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${notification.type === 'error'
-                          ? 'bg-rose-100 dark:bg-rose-500/20'
-                          : notification.type === 'warning'
-                            ? 'bg-amber-100 dark:bg-amber-500/20'
-                            : notification.type === 'success'
-                              ? 'bg-emerald-100 dark:bg-emerald-500/20'
-                              : 'bg-blue-100 dark:bg-blue-500/20'
+                        ? 'bg-rose-100 dark:bg-rose-500/20'
+                        : notification.type === 'warning'
+                          ? 'bg-amber-100 dark:bg-amber-500/20'
+                          : 'bg-purple-100 dark:bg-purple-500/20'
                         }`}>
                         {notification.type === 'error' ? (
                           <AlertCircle size={18} className="text-rose-600 dark:text-rose-400" />
                         ) : notification.type === 'warning' ? (
                           <AlertTriangle size={18} className="text-amber-600 dark:text-amber-400" />
-                        ) : notification.type === 'success' ? (
-                          <CheckCircle size={18} className="text-emerald-600 dark:text-emerald-400" />
                         ) : (
-                          <Info size={18} className="text-blue-600 dark:text-blue-400" />
+                          <Info size={18} className="text-purple-600 dark:text-purple-400" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -120,7 +116,7 @@ export default function NotificationsPage() {
                             {notification.title}
                           </h4>
                           {!notification.read && (
-                            <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0 mt-2" />
+                            <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0 mt-2" />
                           )}
                         </div>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-2">
@@ -134,7 +130,7 @@ export default function NotificationsPage() {
                             {!notification.read && (
                               <button
                                 onClick={() => markAsRead(notification.id)}
-                                className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+                                className="text-xs text-purple-600 dark:text-purple-400 hover:underline"
                               >
                                 Mark as read
                               </button>
@@ -142,7 +138,7 @@ export default function NotificationsPage() {
                             {notification.actionUrl && (
                               <a
                                 href={notification.actionUrl}
-                                className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline"
+                                className="text-xs text-purple-600 dark:text-purple-400 hover:underline"
                               >
                                 View details →
                               </a>
@@ -182,8 +178,8 @@ export default function NotificationsPage() {
 
                   <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
                     <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center shrink-0">
-                        <CheckCircle size={18} className="text-emerald-600 dark:text-emerald-400" />
+                      <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
+                        <CheckCircle size={18} className="text-purple-600 dark:text-purple-400" />
                       </div>
                       <div className="flex-1">
                         <h4 className="font-medium text-slate-900 dark:text-white">
@@ -194,7 +190,7 @@ export default function NotificationsPage() {
                         </p>
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-slate-500">1 day ago</p>
-                          <button className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline">
+                          <button className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
                             Download →
                           </button>
                         </div>
@@ -212,7 +208,7 @@ export default function NotificationsPage() {
                           <h4 className="font-medium text-slate-900 dark:text-white">
                             Storage Space Warning
                           </h4>
-                          <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0 mt-2" />
+                          <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0 mt-2" />
                         </div>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-2">
                           You're using 85% of your storage space. Consider archiving old data.
@@ -220,7 +216,7 @@ export default function NotificationsPage() {
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-slate-500">2 days ago</p>
                           <div className="flex gap-3">
-                            <button className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">
+                            <button className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
                               Mark as read
                             </button>
                             <button className="text-xs text-amber-600 dark:text-amber-400 hover:underline">
@@ -255,8 +251,8 @@ export default function NotificationsPage() {
                   <div className="text-2xl font-bold text-slate-900 dark:text-white">{stats.total}</div>
                   <p className="text-xs text-slate-500">Total</p>
                 </div>
-                <div className="p-3 bg-indigo-50 dark:bg-indigo-500/10 rounded-lg text-center">
-                  <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stats.unread}</div>
+                <div className="p-3 bg-purple-50 dark:bg-purple-500/10 rounded-lg text-center">
+                  <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.unread}</div>
                   <p className="text-xs text-slate-500">Unread</p>
                 </div>
                 <div className="p-3 bg-purple-50 dark:bg-purple-500/10 rounded-lg text-center">
@@ -282,7 +278,7 @@ export default function NotificationsPage() {
                     <MailOpen size={14} />
                     Unread only
                   </span>
-                  <span className="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-xs rounded-full">{stats.unread}</span>
+                  <span className="px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 text-xs rounded-full">{stats.unread}</span>
                 </button>
                 <button className="flex items-center justify-between w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
                   <span className="flex items-center gap-2">
@@ -315,7 +311,7 @@ export default function NotificationsPage() {
                   <span className="text-sm text-slate-600 dark:text-slate-400">Email alerts</span>
                   <div className="relative">
                     <input type="checkbox" defaultChecked className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 cursor-pointer transition-colors" />
+                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
                     <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
                   </div>
                 </div>
@@ -323,7 +319,7 @@ export default function NotificationsPage() {
                   <span className="text-sm text-slate-600 dark:text-slate-400">Push notifications</span>
                   <div className="relative">
                     <input type="checkbox" defaultChecked className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 cursor-pointer transition-colors" />
+                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
                     <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
                   </div>
                 </div>
@@ -331,21 +327,21 @@ export default function NotificationsPage() {
                   <span className="text-sm text-slate-600 dark:text-slate-400">Weekly digest</span>
                   <div className="relative">
                     <input type="checkbox" className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 cursor-pointer transition-colors" />
+                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
                     <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
                   </div>
                 </div>
               </div>
-              <a href="/settings" className="block mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+              <a href="/settings" className="block mt-4 text-sm text-purple-600 dark:text-purple-400 hover:underline">
                 All notification settings →
               </a>
             </div>
 
             {/* Tips */}
-            <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20 rounded-xl p-5">
-              <h3 className="font-semibold text-emerald-900 dark:text-emerald-300 mb-2">Pro Tip</h3>
-              <p className="text-sm text-emerald-700 dark:text-emerald-400">
-                Use <kbd className="px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-500/20 rounded text-xs">⌘ + N</kbd> to
+            <div className="bg-purple-50 dark:bg-purple-500/10 border border-purple-100 dark:border-purple-500/20 rounded-xl p-5">
+              <h3 className="font-semibold text-purple-900 dark:text-purple-300 mb-2">Pro Tip</h3>
+              <p className="text-sm text-purple-700 dark:text-purple-400">
+                Use <kbd className="px-1.5 py-0.5 bg-purple-100 dark:bg-purple-500/20 rounded text-xs">⌘ + N</kbd> to
                 quickly access notifications from anywhere in the dashboard.
               </p>
             </div>
