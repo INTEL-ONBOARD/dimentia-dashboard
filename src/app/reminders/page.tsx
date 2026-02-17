@@ -63,7 +63,7 @@ export default function RemindersPage() {
           <BaseBarChart
             title="Reminders by Day of Week"
             data={remindersData?.byDayOfWeek ?? []}
-            dataKeys={[{ key: "count", color: "#6366F1", label: "Reminders" }]}
+            dataKeys={[{ key: "count", color: "#8B5CF6", label: "Reminders" }]}
             xAxisKey="day"
             loading={remindersLoading}
           />

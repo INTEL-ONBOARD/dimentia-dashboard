@@ -81,7 +81,7 @@ export default function ContentPage() {
               { category: "Daily Activities", views: 1342 },
               { category: "Caregiver Resources", views: 816 },
             ]}
-            dataKeys={[{ key: "views", color: "#6366F1", label: "Views" }]}
+            dataKeys={[{ key: "views", color: "#8B5CF6", label: "Views" }]}
             xAxisKey="category"
           />
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">

@@ -60,7 +60,7 @@ export default function Home() {
           <BaseLineChart
             title="Daily Active Users (Last 7 Days)"
             data={dauData ?? []}
-            dataKeys={[{ key: "users", color: "#6366F1", label: "Active Users" }]}
+            dataKeys={[{ key: "users", color: "#8B5CF6", label: "Active Users" }]}
             xAxisKey="date"
             loading={dauLoading}
           />

@@ -263,8 +263,8 @@ export const apiClient = {
           completionRate: 85,
           completionChange: 3,
           statusDistribution: [
-            { name: "Active", value: 789, color: "#10B981" },
-            { name: "Inactive", value: 445, color: "#EF4444" }
+            { name: "Active", value: 789, color: "#7C3AED" },
+            { name: "Inactive", value: 445, color: "#C4B5FD" }
           ],
           byDayOfWeek: [
             { day: "Mon", count: 156 },

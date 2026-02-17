@@ -80,7 +80,7 @@ export default function HealthInsightsPage() {
             <BaseBarChart
               title="Top 10 Most Common Symptoms"
               data={symptomsData?.topSymptoms ?? []}
-              dataKeys={[{ key: "count", color: "#6366F1", label: "Frequency" }]}
+              dataKeys={[{ key: "count", color: "#8B5CF6", label: "Frequency" }]}
               xAxisKey="symptom"
               height={400}
               loading={symptomsLoading}

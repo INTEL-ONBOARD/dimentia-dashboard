@@ -26,11 +26,11 @@ export const mockDailyActiveUsers = [
 ];
 
 export const mockFeatureUsage = [
-  { name: 'Articles', value: 35, color: '#3B82F6' },
-  { name: 'Symptoms', value: 25, color: '#10B981' },
-  { name: 'Mood', value: 20, color: '#8B5CF6' },
-  { name: 'Breathing', value: 10, color: '#F59E0B' },
-  { name: 'Reminders', value: 10, color: '#EF4444' },
+  { name: 'Articles', value: 35, color: '#7C3AED' },
+  { name: 'Symptoms', value: 25, color: '#8B5CF6' },
+  { name: 'Mood', value: 20, color: '#A78BFA' },
+  { name: 'Breathing', value: 10, color: '#C4B5FD' },
+  { name: 'Reminders', value: 10, color: '#DDD6FE' },
 ];
 
 export const mockUsers = [
@@ -98,13 +98,13 @@ export const mockUsers = [
 
 export const mockDemographics = {
   byRole: [
-    { name: 'Patients', value: 3200, color: '#3B82F6' },
-    { name: 'Caregivers', value: 2478, color: '#10B981' },
+    { name: 'Patients', value: 3200, color: '#7C3AED' },
+    { name: 'Caregivers', value: 2478, color: '#A78BFA' },
   ],
   byGender: [
-    { name: 'Male', value: 2850, color: '#3B82F6' },
-    { name: 'Female', value: 2610, color: '#EC4899' },
-    { name: 'Other', value: 218, color: '#8B5CF6' },
+    { name: 'Male', value: 2850, color: '#6B21A8' },
+    { name: 'Female', value: 2610, color: '#8B5CF6' },
+    { name: 'Other', value: 218, color: '#C4B5FD' },
   ],
   byAge: [
     { ageGroup: '18-30', count: 234 },
@@ -129,14 +129,14 @@ export const mockSymptoms = [
 ];
 
 export const mockMoodData = [
-  { name: 'Happy', value: 28, color: '#10B981' },
-  { name: 'Calm', value: 24, color: '#3B82F6' },
-  { name: 'Okay', value: 20, color: '#8B5CF6' },
-  { name: 'Tired', value: 12, color: '#F59E0B' },
-  { name: 'Anxious', value: 8, color: '#F97316' },
-  { name: 'Sad', value: 5, color: '#EF4444' },
-  { name: 'Irritable', value: 2, color: '#DC2626' },
-  { name: 'Upset', value: 1, color: '#991B1B' },
+  { name: 'Happy', value: 28, color: '#581C87' },
+  { name: 'Calm', value: 24, color: '#6B21A8' },
+  { name: 'Okay', value: 20, color: '#7C3AED' },
+  { name: 'Tired', value: 12, color: '#8B5CF6' },
+  { name: 'Anxious', value: 8, color: '#A78BFA' },
+  { name: 'Sad', value: 5, color: '#C4B5FD' },
+  { name: 'Irritable', value: 2, color: '#DDD6FE' },
+  { name: 'Upset', value: 1, color: '#EDE9FE' },
 ];
 
 export const mockArticlePerformance = [

@@ -66,7 +66,7 @@ export default function EngagementPage() {
           <BaseBarChart
             title="Top Articles by Views"
             data={articlesData?.topArticles ?? []}
-            dataKeys={[{ key: "views", color: "#6366F1", label: "Views" }]}
+            dataKeys={[{ key: "views", color: "#8B5CF6", label: "Views" }]}
             xAxisKey="title"
             loading={articlesLoading}
           />

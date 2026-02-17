@@ -119,7 +119,7 @@ export default function UsersPage() {
             <BaseBarChart
               title="Users by Age Group"
               data={demographics?.byAge ?? []}
-              dataKeys={[{ key: "count", color: "#6366F1", label: "Users" }]}
+              dataKeys={[{ key: "count", color: "#8B5CF6", label: "Users" }]}
               xAxisKey="ageGroup"
               loading={demographicsLoading}
             />
