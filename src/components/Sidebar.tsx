@@ -74,7 +74,7 @@ export default function Sidebar() {
         <div className="flex items-center gap-3 mb-8 px-2">
           <div className="w-9 h-9 rounded-lg overflow-hidden shrink-0">
             <Image
-              src="/logo.jpeg"
+              src="/logo.png"
               alt="DementiaMithura Logo"
               width={36}
               height={36}
