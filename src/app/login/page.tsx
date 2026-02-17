@@ -1,9 +1,10 @@
 "use client";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { toast } from "sonner";
-import { Brain, Loader2, Mail, Lock, Sparkles, Shield, Users, Activity } from "lucide-react";
+import { Loader2, Mail, Lock, Sparkles, Shield, Users, Activity, Brain } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -67,8 +68,14 @@ export default function LoginPage() {
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <Brain size={28} className="text-white" />
+            <div className="w-12 h-12 rounded-xl overflow-hidden">
+              <Image
+                src="/logo.png"
+                alt="DementiaMithura Logo"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-2xl font-bold text-white">DementiaMithura</span>
           </div>
@@ -129,8 +136,14 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-600 mb-4">
-              <Brain size={32} className="text-white" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden mb-4">
+              <Image
+                src="/logo.png"
+                alt="DementiaMithura Logo"
+                width={64}
+                height={64}
+                className="w-full h-full object-cover"
+              />
             </div>
             <h1 className="text-2xl font-bold text-slate-900 dark:text-white">DementiaMithura</h1>
             <p className="text-slate-500 dark:text-slate-400">Analytics Dashboard</p>
