@@ -223,17 +223,30 @@ export default function SettingsPage() {
 
                   <div className="space-y-1">
                     {[
-                      { label: 'Analytics Tracking', desc: 'Help improve the dashboard with usage data' },
-                      { label: 'Personalized Experience', desc: 'Use your data to customize the dashboard' },
-                      { label: 'Share Anonymous Data', desc: 'Contribute to aggregate statistics' },
+                      { key: 'analyticsTracking', label: 'Analytics Tracking', desc: 'Help improve the dashboard with usage data' },
+                      { key: 'personalizedExperience', label: 'Personalized Experience', desc: 'Use your data to customize the dashboard' },
+                      { key: 'shareAnonymousData', label: 'Share Anonymous Data', desc: 'Contribute to aggregate statistics' },
                     ].map((item, idx) => (
-                      <div key={item.label} className={`flex items-center justify-between py-4 ${idx !== 0 ? 'border-t border-slate-100 dark:border-slate-800' : ''}`}>
+                      <div key={item.key} className={`flex items-center justify-between py-4 ${idx !== 0 ? 'border-t border-slate-100 dark:border-slate-800' : ''}`}>
                         <div>
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{item.label}</p>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
                         </div>
-                        <button className="w-12 h-7 bg-purple-600 rounded-full transition-colors">
-                          <div className="w-5 h-5 bg-white rounded-full shadow-sm translate-x-6 mx-1" />
+                        <button 
+                          onClick={() => {
+                            const privacyKey = item.key as keyof typeof settings.privacy;
+                            if (settings.privacy && privacyKey in settings.privacy) {
+                              updateSettings({
+                                privacy: {
+                                  ...settings.privacy,
+                                  [privacyKey]: !settings.privacy[privacyKey]
+                                }
+                              });
+                            }
+                          }}
+                          className={`w-12 h-7 rounded-full transition-colors ${(settings.privacy as any)?.[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+                        >
+                          <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${(settings.privacy as any)?.[item.key] ? 'translate-x-5' : 'translate-x-0'}`} />
                         </button>
                       </div>
                     ))}

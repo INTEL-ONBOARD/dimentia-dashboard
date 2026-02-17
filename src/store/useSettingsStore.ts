@@ -14,6 +14,11 @@ interface Settings {
     sms?: boolean;
     weekly?: boolean;
   };
+  privacy: {
+    analyticsTracking: boolean;
+    personalizedExperience: boolean;
+    shareAnonymousData: boolean;
+  };
   dataRetention: number; // in days
 }
 
@@ -36,6 +41,11 @@ export const useSettingsStore = create<SettingsState>()(
           slack: false,
           sms: false,
           weekly: true,
+        },
+        privacy: {
+          analyticsTracking: true,
+          personalizedExperience: true,
+          shareAnonymousData: true,
         },
         dataRetention: 730, // 2 years
       },
