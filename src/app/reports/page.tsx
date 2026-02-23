@@ -1,7 +1,7 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
-import { FileText, Download, Clock, BarChart3, Users, Heart, Bell } from "lucide-react";
+import { FileText, Download, BarChart3, Users, Heart, Bell } from "lucide-react";
 import { toast } from "sonner";
 import apiClient from "@/lib/api-client";
 
@@ -138,37 +138,6 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        {/* Scheduled Reports */}
-        <div className="mt-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Scheduled Reports</h2>
-          </div>
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
-                <Clock size={24} className="text-purple-600 dark:text-purple-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Automated Report Delivery</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Set up weekly or monthly reports delivered to your email</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => toast.info('Schedule configuration coming soon')}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
-              >
-                Configure Schedule
-              </button>
-              <button
-                onClick={() => toast.info('Report history coming soon')}
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-              >
-                View History
-              </button>
-            </div>
-          </div>
-        </div>
       </main>
     </div>
   );

@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
 import { toast } from "sonner";
-import { Loader2, Mail, Lock, Sparkles, Shield, Users, Activity, Brain } from "lucide-react";
+import { Loader2, Mail, Lock, Shield, Users, Activity, Brain, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [demoLoading, setDemoLoading] = useState(false);
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
 
@@ -37,19 +37,6 @@ export default function LoginPage() {
       toast.error("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleDemoLogin = async () => {
-    setDemoLoading(true);
-    try {
-      await login("admin@demo.com", "password123");
-      toast.success("Welcome to the demo!");
-      router.push("/");
-    } catch (error) {
-      toast.error("Demo login failed. Please try again.");
-    } finally {
-      setDemoLoading(false);
     }
   };
 
@@ -159,37 +146,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Demo Login Button */}
-          <button
-            onClick={handleDemoLogin}
-            disabled={demoLoading || loading}
-            className="w-full mb-6 py-3.5 bg-purple-50 dark:bg-purple-500/10 border-2 border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 rounded-xl font-semibold hover:bg-purple-100 dark:hover:bg-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-          >
-            {demoLoading ? (
-              <>
-                <Loader2 size={18} className="animate-spin" />
-                Loading demo...
-              </>
-            ) : (
-              <>
-                <Sparkles size={18} />
-                Try Demo Account
-              </>
-            )}
-          </button>
-
-          {/* Divider */}
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200 dark:border-slate-800" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400">
-                or sign in with email
-              </span>
-            </div>
-          </div>
-
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
@@ -208,7 +164,7 @@ export default function LoginPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading || demoLoading}
+                  disabled={loading}
                   className="w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   placeholder="you@example.com"
                   autoComplete="email"
@@ -229,20 +185,28 @@ export default function LoginPage() {
                 </div>
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading || demoLoading}
-                  className="w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  disabled={loading}
+                  className="w-full pl-11 pr-12 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   placeholder="••••••••"
                   autoComplete="current-password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
-              disabled={loading || demoLoading}
+              disabled={loading}
               className="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (

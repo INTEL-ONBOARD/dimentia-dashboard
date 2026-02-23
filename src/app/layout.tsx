@@ -16,10 +16,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DementiaMithura - Analytics Dashboard",
   description: "Analytics Dashboard for DementiaMithura Mobile App",
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
 };
 
 export default function RootLayout({
@@ -29,6 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/logo.png?v=3" type="image/png" />
+        <link rel="shortcut icon" href="/logo.png?v=3" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png?v=3" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
