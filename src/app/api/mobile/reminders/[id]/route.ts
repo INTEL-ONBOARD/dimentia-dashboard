@@ -4,6 +4,7 @@ import Reminder from '@/models/Reminder';
 import AppUser from '@/models/AppUser';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 type Context = { params: Promise<{ id: string }> };
 
@@ -64,6 +65,22 @@ async function updateReminder(req: NextRequest, authUser: JwtPayload, context: C
     await AppUser.findByIdAndUpdate(authUser.id, {
       $set: { lastActive: new Date() },
     });
+
+    if (update.status === 'Completed') {
+      await createNotification(
+        'Reminder Completed',
+        `A user completed the reminder: "${updated?.title ?? 'Reminder'}"`,
+        'success',
+        '/reminders'
+      );
+    } else if (update.status === 'Missed') {
+      await createNotification(
+        'Reminder Missed',
+        `A user missed the reminder: "${updated?.title ?? 'Reminder'}"`,
+        'warning',
+        '/reminders'
+      );
+    }
 
     return apiResponse(updated);
   } catch (error) {

@@ -4,6 +4,7 @@ import connectDB from '@/lib/mongodb';
 import AppUser from '@/models/AppUser';
 import ActivityLog from '@/models/ActivityLog';
 import { signToken, apiResponse, apiError } from '@/lib/auth';
+import { createNotification } from '@/lib/createNotification';
 
 /**
  * POST /api/mobile/auth/register
@@ -63,6 +64,13 @@ export async function POST(req: NextRequest) {
       userId: user._id,
       type: 'user_registered',
     });
+
+    await createNotification(
+      'New User Registered',
+      `${fullName} joined as a ${role}`,
+      'info',
+      '/users'
+    );
 
     const token = signToken({ id: String(user._id), email: user.email!, role: user.role });
 

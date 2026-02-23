@@ -55,8 +55,7 @@ export function useMetrics() {
   return useQuery({
     queryKey: queryKeys.metrics,
     queryFn: () => apiClient.metrics.getOverview(),
-    refetchInterval: 5 * 60 * 1000, // 5 minutes
-    staleTime: 2 * 60 * 1000, // Consider stale after 2 minutes
+    refetchInterval: 30 * 1000, // 30 seconds
   });
 }
 
@@ -105,7 +104,7 @@ export function useUsers(params?: { page?: number; limit?: number; search?: stri
   return useQuery<UsersResponse>({
     queryKey: queryKeys.users(params),
     queryFn: () => apiClient.users.getAll(params),
-    staleTime: 60 * 1000, // 1 minute
+    refetchInterval: 30 * 1000, // 30 seconds
   });
 }
 
@@ -209,7 +208,7 @@ export function useNotifications() {
   return useQuery({
     queryKey: queryKeys.notifications,
     queryFn: () => apiClient.notifications.getAll(),
-    refetchInterval: 60 * 1000, // 1 minute
+    refetchInterval: 15 * 1000, // 15 seconds — near real-time
   });
 }
 
@@ -222,7 +221,34 @@ export function useMarkNotificationAsRead() {
   return useMutation({
     mutationFn: (id: string) => apiClient.notifications.markAsRead(id),
     onSuccess: () => {
-      // Invalidate notifications query to refetch
+      queryClient.invalidateQueries({ queryKey: queryKeys.notifications });
+    },
+  });
+}
+
+/**
+ * Mark all notifications as read (mutation)
+ */
+export function useMarkAllNotificationsAsRead() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => apiClient.notifications.markAllAsRead(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.notifications });
+    },
+  });
+}
+
+/**
+ * Delete all notifications (mutation)
+ */
+export function useDeleteAllNotifications() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => apiClient.notifications.deleteAll(),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications });
     },
   });
@@ -302,7 +328,7 @@ export function useActivity(limit = 10) {
   return useQuery({
     queryKey: ['activity', limit] as const,
     queryFn: () => apiClient.activity.getRecent(limit),
-    refetchInterval: 60 * 1000, // 1 minute
+    refetchInterval: 15 * 1000, // 15 seconds — near real-time
   });
 }
 

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
-import { useNotificationStore } from "@/store/useNotificationStore";
+import { useNotifications, useMarkNotificationAsRead, useMarkAllNotificationsAsRead } from "@/hooks/useApi";
 import { formatDistanceToNow } from "date-fns";
 
 interface TopNavProps {
@@ -15,7 +15,12 @@ interface TopNavProps {
 export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNavProps) {
   const router = useRouter();
   const { user, logout } = useAuthStore();
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationStore();
+  const { data: notificationsData } = useNotifications();
+  const { mutate: markAsReadMutation } = useMarkNotificationAsRead();
+  const { mutate: markAllAsReadMutation } = useMarkAllNotificationsAsRead();
+
+  const notifications = (notificationsData as any[]) ?? [];
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
@@ -108,7 +113,7 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
                   <p className="text-xs text-slate-500 mt-0.5">{unreadCount} unread messages</p>
                 </div>
                 {notifications.length > 0 && (
-                  <button onClick={markAllAsRead} className="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
+                  <button onClick={() => markAllAsReadMutation()} className="text-xs text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-3 py-1.5 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
                     Mark all read
                   </button>
                 )}
@@ -128,7 +133,7 @@ export default function TopNav({ title = "Overview Dashboard", subtitle }: TopNa
                     <div
                       key={notification.id}
                       onClick={() => {
-                        markAsRead(notification.id);
+                        markAsReadMutation(notification.id);
                         if (notification.actionUrl) {
                           router.push(notification.actionUrl);
                           setShowNotifications(false);

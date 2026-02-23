@@ -54,7 +54,7 @@ export default function ContentPage() {
         <div className="grid grid-cols-4 gap-6 mt-6">
           <MetricCard
             label="Total Article Views"
-            value={articlesData?.articles.reduce((s, a) => s + a.views, 0) ?? 0}
+            value={articlesData?.articles?.reduce((s, a) => s + a.views, 0) ?? 0}
             change={articlesData?.completionsChange ?? 0}
             icon={Eye}
             color="purple"

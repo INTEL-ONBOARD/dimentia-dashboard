@@ -5,6 +5,7 @@ import ActivityLog from '@/models/ActivityLog';
 import AppUser from '@/models/AppUser';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 const VALID_TYPES = ['medication', 'voice', 'appointment', 'other'];
 
@@ -56,6 +57,13 @@ async function createReminder(req: NextRequest, authUser: JwtPayload): Promise<N
       userId: authUser.id,
       type: 'reminder_created',
     });
+
+    await createNotification(
+      'Reminder Created',
+      `A user created a ${type ?? 'other'} reminder: "${title}"`,
+      'info',
+      '/reminders'
+    );
 
     return apiResponse({ reminderId: reminder._id }, 201);
   } catch (error) {

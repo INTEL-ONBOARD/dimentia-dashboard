@@ -10,8 +10,9 @@ import LoadingBar from "@/components/LoadingBar";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000, // 1 minute
-      refetchOnWindowFocus: false,
+      staleTime: 30 * 1000, // 30 seconds — data considered fresh for 30s
+      refetchOnWindowFocus: true, // Re-fetch when tab regains focus
+      refetchOnReconnect: true, // Re-fetch on network reconnect
     },
   },
 });

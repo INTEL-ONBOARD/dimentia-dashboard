@@ -3,6 +3,8 @@ import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import { useSettingsStore } from "@/store/useSettingsStore";
 import { useThemeStore } from "@/store/useThemeStore";
+import { useUpdateSettings } from "@/hooks/useApi";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Settings, Bell, Shield, Database, RefreshCw, Check, Monitor, Moon, Sun, HelpCircle, MessageCircle, BookOpen, Zap } from "lucide-react";
@@ -10,10 +12,12 @@ import { Settings, Bell, Shield, Database, RefreshCw, Check, Monitor, Moon, Sun,
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettingsStore();
   const { setTheme } = useThemeStore();
+  const { mutate: saveSettings, isPending: isSaving } = useUpdateSettings();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<'general' | 'notifications' | 'privacy'>('general');
 
   const handleSave = () => {
-    toast.success("Settings saved successfully!");
+    saveSettings(settings);
   };
 
   const handleThemeChange = (value: 'light' | 'dark' | 'system') => {
@@ -27,10 +31,8 @@ export default function SettingsPage() {
   };
 
   const handleClearCache = () => {
-    if (typeof window !== 'undefined') {
-      // Clear react-query cache stored in sessionStorage if any, plus app caches
-      sessionStorage.clear();
-    }
+    sessionStorage.clear();
+    queryClient.clear();
     toast.success("Cache cleared successfully!");
   };
 
@@ -153,6 +155,8 @@ export default function SettingsPage() {
                           onChange={(e) => updateSettings({ refreshInterval: parseInt(e.target.value) })}
                           className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
                         >
+                          <option value="3">3 seconds</option>
+                          <option value="15">15 seconds</option>
                           <option value="60">1 minute</option>
                           <option value="300">5 minutes</option>
                           <option value="600">10 minutes</option>
@@ -169,11 +173,9 @@ export default function SettingsPage() {
                       </div>
                       <button
                         onClick={() => updateSettings({ chartAnimations: !settings.chartAnimations })}
-                        className={`w-12 h-7 rounded-full transition-colors ${settings.chartAnimations ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'
-                          }`}
+                        className={`w-12 h-7 rounded-full transition-colors ${settings.chartAnimations ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
                       >
-                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${settings.chartAnimations ? 'translate-x-5' : 'translate-x-0'
-                          }`} />
+                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${settings.chartAnimations ? 'translate-x-5' : 'translate-x-0'}`} />
                       </button>
                     </div>
                   </div>
@@ -323,9 +325,10 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={handleSave}
-                className="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors shadow-lg shadow-purple-500/20"
+                disabled={isSaving}
+                className="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors shadow-lg shadow-purple-500/20 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Save Changes
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>

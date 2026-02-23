@@ -4,6 +4,7 @@ import ActivityLog from '@/models/ActivityLog';
 import AppUser from '@/models/AppUser';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 const VALID_TYPES = [
   'user_registered',
@@ -59,6 +60,12 @@ async function logActivity(req: NextRequest, authUser: JwtPayload): Promise<Next
         $inc: { totalPoints: 5 },
         $set: { lastActive: new Date(), status: 'Active' },
       });
+      await createNotification(
+        'Exercise Completed',
+        `${userName} completed an exercise: "${action}" (+5 points)`,
+        'success',
+        '/engagement'
+      );
     }
 
     return apiResponse({ activityId: entry._id }, 201);

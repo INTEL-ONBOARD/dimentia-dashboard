@@ -5,6 +5,7 @@ import AppUser from '@/models/AppUser';
 import ActivityLog from '@/models/ActivityLog';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 /**
  * POST /api/mobile/sessions
@@ -51,6 +52,14 @@ async function createSession(req: NextRequest, authUser: JwtPayload): Promise<Ne
       userId: authUser.id,
       type: 'session_started',
     });
+
+    const mins = Math.round(Number(durationSeconds) / 60);
+    await createNotification(
+      'Session Completed',
+      `A user completed a ${mins}-minute app session`,
+      'info',
+      '/engagement'
+    );
 
     return apiResponse({ sessionId: session._id }, 201);
   } catch (error) {

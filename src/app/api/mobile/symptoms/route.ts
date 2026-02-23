@@ -5,6 +5,7 @@ import AppUser from '@/models/AppUser';
 import ActivityLog from '@/models/ActivityLog';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 /**
  * POST /api/mobile/symptoms
@@ -48,6 +49,13 @@ async function logSymptom(req: NextRequest, authUser: JwtPayload): Promise<NextR
       userId: authUser.id,
       type: 'symptom_logged',
     });
+
+    await createNotification(
+      'Symptoms Logged',
+      `A user logged ${symptoms.length} symptom(s): ${symptoms.slice(0, 2).join(', ')}${symptoms.length > 2 ? '...' : ''}`,
+      'info',
+      '/health-insights'
+    );
 
     return apiResponse({ logId: entry._id, pointsEarned: 5 }, 201);
   } catch (error) {

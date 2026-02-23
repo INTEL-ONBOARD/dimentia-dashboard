@@ -28,4 +28,30 @@ async function getHandler(_req: NextRequest, _payload: JwtPayload) {
   }
 }
 
+// PUT /api/notifications — mark ALL as read
+async function markAllReadHandler(_req: NextRequest, _payload: JwtPayload) {
+  try {
+    await connectDB();
+    await Notification.updateMany({ read: false }, { $set: { read: true } });
+    return apiResponse({ success: true });
+  } catch (error) {
+    console.error('[PUT /api/notifications]', error);
+    return apiError('Internal server error');
+  }
+}
+
+// DELETE /api/notifications — delete all
+async function deleteAllHandler(_req: NextRequest, _payload: JwtPayload) {
+  try {
+    await connectDB();
+    await Notification.deleteMany({});
+    return apiResponse({ success: true });
+  } catch (error) {
+    console.error('[DELETE /api/notifications]', error);
+    return apiError('Internal server error');
+  }
+}
+
 export const GET = requireAuth(getHandler);
+export const PUT = requireAuth(markAllReadHandler);
+export const DELETE = requireAuth(deleteAllHandler);

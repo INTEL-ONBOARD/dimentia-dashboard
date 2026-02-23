@@ -5,6 +5,7 @@ import AppUser from '@/models/AppUser';
 import ActivityLog from '@/models/ActivityLog';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 const VALID_ACTIONS = ['view', 'complete', 'bookmark', 'unbookmark'];
 
@@ -104,6 +105,19 @@ async function interactWithArticle(req: NextRequest, authUser: JwtPayload): Prom
         userId: authUser.id,
         type: 'article_completed',
       });
+      await createNotification(
+        'Article Completed',
+        `A user completed "${article.title}" (+10 points)`,
+        'success',
+        '/engagement'
+      );
+    } else if (action === 'bookmark') {
+      await createNotification(
+        'Article Bookmarked',
+        `A user bookmarked "${article.title}"`,
+        'info',
+        '/engagement'
+      );
     }
 
     return apiResponse({ articleId: article._id, pointsEarned }, 200);

@@ -175,6 +175,12 @@ export const apiClient = {
 
     markAsRead: (id: string) =>
       fetchWithAuth(`/api/notifications/${id}/read`, { method: 'PUT' }),
+
+    markAllAsRead: () =>
+      fetchWithAuth('/api/notifications', { method: 'PUT' }),
+
+    deleteAll: () =>
+      fetchWithAuth('/api/notifications', { method: 'DELETE' }),
   },
 
   settings: {

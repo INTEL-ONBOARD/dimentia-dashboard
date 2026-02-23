@@ -5,6 +5,7 @@ import AppUser from '@/models/AppUser';
 import ActivityLog from '@/models/ActivityLog';
 import { apiResponse, apiError, JwtPayload } from '@/lib/auth';
 import { requireMobileAuth } from '@/lib/mobileAuth';
+import { createNotification } from '@/lib/createNotification';
 
 const VALID_MOODS = ['Happy', 'Calm', 'Okay', 'Tired', 'Anxious', 'Sad', 'Irritable', 'Upset'];
 
@@ -50,6 +51,13 @@ async function logMood(req: NextRequest, authUser: JwtPayload): Promise<NextResp
       userId: authUser.id,
       type: 'mood_logged',
     });
+
+    await createNotification(
+      'Mood Logged',
+      `A user reported feeling ${mood}`,
+      'info',
+      '/health-insights'
+    );
 
     return apiResponse({ logId: entry._id, pointsEarned: 5 }, 201);
   } catch (error) {

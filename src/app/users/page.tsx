@@ -53,6 +53,17 @@ export default function UsersPage() {
   const totalUsers = usersData?.total ?? 0;
   const activeUsers = usersData?.users?.filter((u: any) => u.status === 'Active').length ?? 0;
 
+  const now = new Date();
+  const newThisMonth = usersData?.users?.filter((u: any) => {
+    if (!u.registeredDate) return false;
+    const d = new Date(u.registeredDate);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).length ?? 0;
+
+  const avgSessions = usersData?.users && usersData.users.length > 0
+    ? Math.round(usersData.users.reduce((sum: number, u: any) => sum + (u.totalSessions ?? 0), 0) / usersData.users.length)
+    : 0;
+
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
@@ -64,7 +75,6 @@ export default function UsersPage() {
           <MetricCard
             label="Total Users"
             value={totalUsers}
-            change={12.5}
             icon={Users}
             color="indigo"
             loading={usersLoading}
@@ -72,23 +82,20 @@ export default function UsersPage() {
           <MetricCard
             label="Active Users"
             value={activeUsers}
-            change={8.2}
             icon={UserCheck}
             color="emerald"
             loading={usersLoading}
           />
           <MetricCard
             label="New This Month"
-            value={127}
-            change={23.1}
+            value={newThisMonth}
             icon={UserPlus}
             color="purple"
             loading={usersLoading}
           />
           <MetricCard
             label="Avg. Sessions/User"
-            value={45}
-            change={5.7}
+            value={avgSessions}
             icon={Activity}
             color="amber"
             loading={usersLoading}

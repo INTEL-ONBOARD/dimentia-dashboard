@@ -167,9 +167,9 @@ export default function Home() {
         <div className="mt-8 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50 transition-all duration-300">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Recent Activity</h3>
-            <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-4 py-2 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
+            <a href="/users" className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 font-medium px-4 py-2 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors">
               View All
-            </button>
+            </a>
           </div>
           <div className="space-y-1">
             {activityLoading ? (
