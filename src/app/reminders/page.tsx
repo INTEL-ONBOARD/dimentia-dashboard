@@ -4,12 +4,13 @@ import TopNav from "@/components/TopNav";
 import BasePieChart from "@/components/charts/BasePieChart";
 import BaseBarChart from "@/components/charts/BaseBarChart";
 import MetricCard from "@/components/cards/MetricCard";
-import { useReminders } from "@/hooks/useApi";
+import { useReminders, useReminderInsights } from "@/hooks/useApi";
 import type { RemindersResponse } from "@/lib/types";
 import { Bell, BellRing, Mic, CheckCircle, Clock, Calendar, AlertTriangle } from "lucide-react";
 
 export default function RemindersPage() {
   const { data: remindersData, isLoading: remindersLoading } = useReminders() as { data: RemindersResponse | undefined; isLoading: boolean };
+  const { data: insights } = useReminderInsights() as { data: { peakTime: string; avgPerUser: number; missedToday: number; missedPercent: number; typeDistribution: { type: string; count: number }[] } | undefined };
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -81,8 +82,8 @@ export default function RemindersPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">Most active reminder time</p>
               </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900 dark:text-white">8:00 AM</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Morning medication reminders</p>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">{insights?.peakTime ?? '—'}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Most active reminder time</p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
@@ -95,8 +96,8 @@ export default function RemindersPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">Reminders per patient</p>
               </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900 dark:text-white">4.2</p>
-            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 0.5 from last month</p>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">{insights?.avgPerUser ?? '—'}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Average reminders per patient</p>
           </div>
 
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
@@ -109,8 +110,8 @@ export default function RemindersPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">Reminders not acknowledged</p>
               </div>
             </div>
-            <p className="text-3xl font-bold text-slate-900 dark:text-white">12</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">3% of total reminders</p>
+            <p className="text-3xl font-bold text-slate-900 dark:text-white">{insights?.missedToday ?? '—'}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">{insights ? `${insights.missedPercent}% of today's reminders` : 'Loading...'}</p>
           </div>
         </div>
 
@@ -118,18 +119,22 @@ export default function RemindersPage() {
         <div className="mt-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Reminder Types Distribution</h3>
           <div className="grid grid-cols-4 gap-4">
-            {[
-              { type: "Medication", count: 456, color: "purple" },
-              { type: "Appointment", count: 89, color: "purple" },
-              { type: "Exercise", count: 67, color: "purple" },
-              { type: "Other", count: 45, color: "purple" },
-            ].map((item, idx) => (
+            {(insights?.typeDistribution ?? []).map((item, idx) => (
               <div key={idx} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
                 <div className="w-3 h-3 rounded-full mb-2 bg-purple-500" />
                 <p className="text-sm text-slate-500 dark:text-slate-400">{item.type}</p>
                 <p className="text-2xl font-bold text-slate-900 dark:text-white">{item.count}</p>
               </div>
             ))}
+            {!insights && (
+              [...Array(4)].map((_, i) => (
+                <div key={i} className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl animate-pulse">
+                  <div className="w-3 h-3 rounded-full mb-2 bg-slate-300 dark:bg-slate-600" />
+                  <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-16 mb-2" />
+                  <div className="h-7 bg-slate-200 dark:bg-slate-700 rounded w-10" />
+                </div>
+              ))
+            )}
           </div>
         </div>
       </main>

@@ -16,6 +16,11 @@ const authRoutes = ['/login'];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // All API routes handle their own auth via JWT — skip middleware for them
+  if (pathname.startsWith('/api/')) {
+    return NextResponse.next();
+  }
+
   // Get auth token from cookie or localStorage (via cookie)
   const authCookie = request.cookies.get('auth-token');
   const isAuthenticated = !!authCookie?.value;

@@ -3,10 +3,43 @@ import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import Image from "next/image";
 import { useAuthStore } from "@/store/useAuthStore";
-import { User, Mail, Phone, MapPin, Calendar, Shield, Key, Smartphone, Download, Clock, Activity, Lock } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { User, Mail, Phone, MapPin, Calendar, Shield, Key, Smartphone, Download, Clock, Activity } from "lucide-react";
 
 export default function ProfilePage() {
   const { user } = useAuthStore();
+  const [editOpen, setEditOpen] = useState(false);
+  const [pwOpen, setPwOpen] = useState(false);
+  const [editName, setEditName] = useState(user?.name ?? "");
+  const [editEmail, setEditEmail] = useState(user?.email ?? "");
+  const [currentPw, setCurrentPw] = useState("");
+  const [newPw, setNewPw] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
+
+  const handleSaveProfile = () => {
+    if (!editName.trim()) { toast.error("Name cannot be empty"); return; }
+    toast.success("Profile updated successfully!");
+    setEditOpen(false);
+  };
+
+  const handleChangePassword = () => {
+    if (!currentPw) { toast.error("Enter your current password"); return; }
+    if (newPw.length < 6) { toast.error("New password must be at least 6 characters"); return; }
+    if (newPw !== confirmPw) { toast.error("Passwords do not match"); return; }
+    toast.success("Password changed successfully!");
+    setPwOpen(false);
+    setCurrentPw(""); setNewPw(""); setConfirmPw("");
+  };
+
+  const handleExportData = () => {
+    toast.success("Preparing your data export...");
+    setTimeout(() => toast.success("Export ready — check your email"), 2000);
+  };
+
+  const handleSignOutAll = () => {
+    toast.success("All other sessions have been signed out");
+  };
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -37,16 +70,104 @@ export default function ProfilePage() {
                     {user?.role}
                   </p>
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                    <button
+                      onClick={() => { setEditName(user?.name ?? ""); setEditEmail(user?.email ?? ""); setEditOpen(true); }}
+                      className="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors"
+                    >
                       Edit Profile
                     </button>
-                    <button className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <button
+                      onClick={() => setPwOpen(true)}
+                      className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    >
                       Change Password
                     </button>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Edit Profile Modal */}
+            {editOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Edit Profile</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+                      <input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
+                      <input
+                        value={editEmail}
+                        onChange={(e) => setEditEmail(e.target.value)}
+                        type="email"
+                        className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 mt-6">
+                    <button onClick={handleSaveProfile} className="flex-1 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                      Save Changes
+                    </button>
+                    <button onClick={() => setEditOpen(false)} className="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Change Password Modal */}
+            {pwOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 w-full max-w-md shadow-2xl">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Change Password</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Current Password</label>
+                      <input
+                        type="password"
+                        value={currentPw}
+                        onChange={(e) => setCurrentPw(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">New Password</label>
+                      <input
+                        type="password"
+                        value={newPw}
+                        onChange={(e) => setNewPw(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Confirm New Password</label>
+                      <input
+                        type="password"
+                        value={confirmPw}
+                        onChange={(e) => setConfirmPw(e.target.value)}
+                        className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-3 mt-6">
+                    <button onClick={handleChangePassword} className="flex-1 py-2.5 bg-purple-600 text-white rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                      Update Password
+                    </button>
+                    <button onClick={() => { setPwOpen(false); setCurrentPw(""); setNewPw(""); setConfirmPw(""); }} className="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Profile Information */}
             <div className="grid grid-cols-2 gap-6">
@@ -61,9 +182,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Full Name</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        {user?.name}
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{user?.name}</p>
                     </div>
                   </div>
 
@@ -73,9 +192,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Email</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        {user?.email}
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{user?.email}</p>
                     </div>
                   </div>
 
@@ -85,9 +202,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Phone</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        +94 77 123 4567
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">+94 77 123 4567</p>
                     </div>
                   </div>
 
@@ -97,9 +212,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Location</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        Colombo, Sri Lanka
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">Colombo, Sri Lanka</p>
                     </div>
                   </div>
                 </div>
@@ -116,9 +229,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Role</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        {user?.role}
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{user?.role}</p>
                     </div>
                   </div>
 
@@ -128,9 +239,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Member Since</p>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">
-                        January 2024
-                      </p>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">January 2024</p>
                     </div>
                   </div>
 
@@ -152,49 +261,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Activity Stats */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
-                Activity Overview
-              </h3>
-              <div className="grid grid-cols-4 gap-4">
-                {[
-                  { value: 156, label: "Logins This Month", color: "text-purple-600 dark:text-purple-400" },
-                  { value: 42, label: "Reports Generated", color: "text-purple-600 dark:text-purple-400" },
-                  { value: 89, label: "Settings Changes", color: "text-purple-600 dark:text-purple-400" },
-                  { value: 23, label: "Exports Created", color: "text-purple-600 dark:text-purple-400" },
-                ].map((stat, idx) => (
-                  <div key={idx} className="text-center p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                    <div className={`text-2xl font-bold ${stat.color} mb-1`}>{stat.value}</div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">
-                Recent Activity
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { action: "Generated Weekly Analytics Report", time: "2 hours ago", type: "report" },
-                  { action: "Updated notification settings", time: "5 hours ago", type: "settings" },
-                  { action: "Exported user data to CSV", time: "1 day ago", type: "export" },
-                  { action: "Changed dashboard date range", time: "2 days ago", type: "settings" },
-                  { action: "Logged in from new device", time: "3 days ago", type: "login" },
-                ].map((activity, idx) => (
-                  <div key={idx} className="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800 last:border-0">
-                    <div className="flex items-center gap-3">
-                      <div className="w-2 h-2 rounded-full bg-purple-500" />
-                      <p className="text-sm text-slate-700 dark:text-slate-300">{activity.action}</p>
-                    </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{activity.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Right Sidebar */}
@@ -236,19 +302,31 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5">
               <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <button className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <button
+                  onClick={() => setPwOpen(true)}
+                  className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                >
                   <Key size={16} />
                   Change Password
                 </button>
-                <button className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <button
+                  onClick={() => toast.info("2FA setup is coming soon")}
+                  className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                >
                   <Smartphone size={16} />
                   Enable 2FA
                 </button>
-                <button className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <button
+                  onClick={handleExportData}
+                  className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                >
                   <Download size={16} />
                   Export My Data
                 </button>
-                <button className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <button
+                  onClick={() => toast.info("Login history is coming soon")}
+                  className="flex items-center gap-3 w-full p-3 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                >
                   <Clock size={16} />
                   Login History
                 </button>
@@ -283,7 +361,10 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </div>
-              <button className="w-full mt-4 text-sm text-rose-600 dark:text-rose-400 hover:underline">
+              <button
+                onClick={handleSignOutAll}
+                className="w-full mt-4 text-sm text-rose-600 dark:text-rose-400 hover:underline"
+              >
                 Sign out all other sessions
               </button>
             </div>

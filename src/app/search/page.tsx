@@ -2,45 +2,35 @@
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import { useSearchParams } from "next/navigation";
-import { Search, FileText, Users, Activity, TrendingUp, Clock, Sparkles, ArrowRight, X } from "lucide-react";
-import { Suspense } from "react";
+import { Search, FileText, Users, Clock, Sparkles, ArrowRight, X } from "lucide-react";
+import { Suspense, useEffect, useState } from "react";
+import apiClient from "@/lib/api-client";
+
+interface SearchData {
+  users: { id: string; fullName: string; role: string; status: string; age: number }[];
+  articles: { id: string; title: string; category: string; views: number }[];
+}
+
+const popularSearches = ["Dashboard", "Users", "Reports", "Analytics", "Settings"];
 
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
+  const [results, setResults] = useState<SearchData>({ users: [], articles: [] });
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Mock search results
-  const results = {
-    users: [
-      { id: 1, name: "John Doe", email: "john@example.com", role: "Patient" },
-      { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Caregiver" },
-    ],
-    articles: [
-      { id: 1, title: "Understanding Dementia", category: "Education", views: 1234 },
-      { id: 2, title: "Memory Care Tips", category: "Caregiving", views: 987 },
-    ],
-    reports: [
-      { id: 1, name: "Weekly Analytics Summary", date: "Feb 15, 2026" },
-      { id: 2, name: "User Growth Report", date: "Feb 10, 2026" },
-    ],
-  };
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults({ users: [], articles: [] });
+      return;
+    }
+    setRecentSearches((prev) => [query, ...prev.filter((s) => s !== query)].slice(0, 5));
+    apiClient.search.query(query)
+      .then((data: any) => setResults(data))
+      .catch(() => setResults({ users: [], articles: [] }));
+  }, [query]);
 
-  const recentSearches = [
-    "user analytics",
-    "weekly report",
-    "engagement metrics",
-    "patient data"
-  ];
-
-  const popularSearches = [
-    "Dashboard",
-    "Users",
-    "Reports",
-    "Analytics",
-    "Settings"
-  ];
-
-  const totalResults = results.users.length + results.articles.length + results.reports.length;
+  const totalResults = results.users.length + results.articles.length;
 
   return (
     <div className="mt-6 grid grid-cols-3 gap-6">
@@ -102,14 +92,14 @@ function SearchResults() {
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold shrink-0">
-                          {user.name.charAt(0)}
+                          {user.fullName.charAt(0)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-medium text-slate-900 dark:text-white">
-                            {user.name}
+                            {user.fullName}
                           </h4>
                           <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
-                            {user.email}
+                            {user.role} · {user.status}
                           </p>
                         </div>
                         <span className="px-2.5 py-1 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-xs font-medium rounded-lg">
@@ -161,45 +151,6 @@ function SearchResults() {
               </div>
             )}
 
-            {/* Reports Section */}
-            {results.reports.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp size={18} className="text-purple-600 dark:text-purple-400" />
-                  <h3 className="font-semibold text-slate-900 dark:text-white">
-                    Reports ({results.reports.length})
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  {results.reports.map((report) => (
-                    <div
-                      key={report.id}
-                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 hover:border-slate-300 dark:hover:border-slate-700 transition-colors cursor-pointer"
-                    >
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
-                            <Activity size={18} className="text-purple-600 dark:text-purple-400" />
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-slate-900 dark:text-white">
-                              {report.name}
-                            </h4>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">
-                              Generated {report.date}
-                            </p>
-                          </div>
-                        </div>
-                        <button className="px-3 py-1.5 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 rounded-lg text-xs font-medium hover:bg-purple-200 dark:hover:bg-purple-500/30 transition-colors">
-                          Download
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* No Results */}
             {totalResults === 0 && query && (
               <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-10 text-center">
@@ -227,18 +178,26 @@ function SearchResults() {
               <Clock size={16} />
               Recent Searches
             </h3>
-            <button className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
+            <button
+              onClick={() => setRecentSearches([])}
+              className="text-xs text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            >
               Clear
             </button>
           </div>
           <div className="space-y-2">
-            {recentSearches.map((search, idx) => (
+            {recentSearches.length === 0 ? (
+              <p className="text-sm text-slate-400 dark:text-slate-500">No recent searches</p>
+            ) : recentSearches.map((search, idx) => (
               <div key={idx} className="flex items-center justify-between group">
                 <button className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                   <Search size={14} className="text-slate-400" />
                   {search}
                 </button>
-                <button className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-all">
+                <button
+                  onClick={() => setRecentSearches((prev) => prev.filter((_, i) => i !== idx))}
+                  className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-all"
+                >
                   <X size={12} className="text-slate-400" />
                 </button>
               </div>

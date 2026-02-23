@@ -21,33 +21,8 @@ interface NotificationState {
 }
 
 export const useNotificationStore = create<NotificationState>((set) => ({
-  notifications: [
-    {
-      id: '1',
-      title: 'New User Registered',
-      message: 'John Doe just created an account',
-      type: 'info',
-      read: false,
-      timestamp: new Date(Date.now() - 1000 * 60 * 5), // 5 min ago
-    },
-    {
-      id: '2',
-      title: 'Daily Active Users Up',
-      message: 'DAU increased by 15% compared to yesterday',
-      type: 'success',
-      read: false,
-      timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 min ago
-    },
-    {
-      id: '3',
-      title: 'Low Engagement Alert',
-      message: 'User engagement dropped below threshold',
-      type: 'warning',
-      read: true,
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-    },
-  ],
-  unreadCount: 2,
+  notifications: [],
+  unreadCount: 0,
 
   addNotification: (notification) => {
     const newNotification: Notification = {

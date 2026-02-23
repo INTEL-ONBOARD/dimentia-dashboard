@@ -5,14 +5,14 @@ import MetricCard from "@/components/cards/MetricCard";
 import BaseLineChart from "@/components/charts/BaseLineChart";
 import BasePieChart from "@/components/charts/BasePieChart";
 import { Users, Activity, TrendingUp, Zap, BookOpen, Heart, Bell, Award } from "lucide-react";
-import { useMetrics, useDailyActiveUsers, useFeatureUsage } from "@/hooks/useApi";
+import { useMetrics, useDailyActiveUsers, useFeatureUsage, useActivity } from "@/hooks/useApi";
 import type { DashboardMetrics, DailyActiveUsersData, FeatureUsage } from "@/lib/types";
 
 export default function Home() {
-  // Fetch real data with React Query
   const { data: metrics, isLoading: metricsLoading } = useMetrics() as { data: DashboardMetrics | undefined; isLoading: boolean };
   const { data: dauData, isLoading: dauLoading } = useDailyActiveUsers(7) as { data: DailyActiveUsersData[] | undefined; isLoading: boolean };
   const { data: featureUsage, isLoading: featureLoading } = useFeatureUsage() as { data: FeatureUsage[] | undefined; isLoading: boolean };
+  const { data: activityData, isLoading: activityLoading } = useActivity(5) as { data: { id: string; action: string; user: string; time: string; type: string }[] | undefined; isLoading: boolean };
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
@@ -89,9 +89,8 @@ export default function Home() {
                   metrics?.articlesRead ?? 0
                 )}
               </p>
-              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
-                <TrendingUp size={14} />
-                15% from last week
+              <p className="text-sm text-slate-400 dark:text-slate-500 mt-3 flex items-center gap-1 font-medium">
+                Total this month
               </p>
             </div>
           </div>
@@ -112,9 +111,8 @@ export default function Home() {
                   metrics?.symptomsLogged ?? 0
                 )}
               </p>
-              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
-                <TrendingUp size={14} />
-                8% from last week
+              <p className="text-sm text-slate-400 dark:text-slate-500 mt-3 flex items-center gap-1 font-medium">
+                Total this month
               </p>
             </div>
           </div>
@@ -158,9 +156,8 @@ export default function Home() {
                   metrics?.totalPoints?.toLocaleString() ?? '0'
                 )}
               </p>
-              <p className="text-sm text-purple-600 dark:text-purple-400 mt-3 flex items-center gap-1 font-medium">
-                <TrendingUp size={14} />
-                23% from last week
+              <p className="text-sm text-slate-400 dark:text-slate-500 mt-3 flex items-center gap-1 font-medium">
+                Total accumulated
               </p>
             </div>
           </div>
@@ -175,26 +172,34 @@ export default function Home() {
             </button>
           </div>
           <div className="space-y-1">
-            {[
-              { action: "New user registered", user: "John Doe", time: "5 minutes ago", type: "success" },
-              { action: "Article completed", user: "Jane Smith", time: "12 minutes ago", type: "info" },
-              { action: "Symptom logged", user: "Robert Johnson", time: "18 minutes ago", type: "warning" },
-              { action: "Reminder created", user: "Emily Williams", time: "25 minutes ago", type: "info" },
-              { action: "Breathing exercise completed", user: "Michael Brown", time: "32 minutes ago", type: "success" },
-            ].map((activity, idx) => (
-              <div key={idx} className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10">
-                    <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">{activity.action}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{activity.user}</p>
+            {activityLoading ? (
+              [...Array(5)].map((_, i) => (
+                <div key={i} className="flex items-center gap-4 py-4 px-4">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-48" />
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded animate-pulse w-24" />
                   </div>
                 </div>
-                <span className="text-xs text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-400 transition-colors">{activity.time}</span>
-              </div>
-            ))}
+              ))
+            ) : (activityData ?? []).length === 0 ? (
+              <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">No recent activity yet</p>
+            ) : (
+              (activityData ?? []).map((activity) => (
+                <div key={activity.id} className="flex items-center justify-between py-4 px-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10">
+                      <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{activity.action}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{activity.user}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-400 transition-colors">{activity.time}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </main>

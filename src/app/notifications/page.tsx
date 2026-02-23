@@ -2,24 +2,19 @@
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import { useNotificationStore } from "@/store/useNotificationStore";
-import { Bell, Check, Trash2, Settings, Filter, AlertCircle, Info, CheckCircle, AlertTriangle, MailOpen, Clock } from "lucide-react";
+import { useSettingsStore } from "@/store/useSettingsStore";
+import { Bell, Check, Trash2, Settings, Filter, AlertCircle, Info, AlertTriangle, MailOpen, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function NotificationsPage() {
-  const { notifications, markAsRead, markAllAsRead, unreadCount } = useNotificationStore();
+  const { notifications, markAsRead, markAllAsRead, clearAll, unreadCount } = useNotificationStore();
+  const { settings, updateSettings } = useSettingsStore();
 
-  const handleDeleteAll = () => {
-    // In a real app, this would call a delete function
-    markAllAsRead();
-  };
-
-  // Stats
   const stats = {
-    total: notifications.length + 5, // +5 for static notifications
-    unread: unreadCount + 2,
-    system: 2,
-    reports: 1,
-    warnings: 1
+    total: notifications.length,
+    unread: unreadCount,
+    system: notifications.filter(n => n.type === 'info' || n.type === 'success').length,
+    warnings: notifications.filter(n => n.type === 'warning' || n.type === 'error').length,
   };
 
   return (
@@ -50,7 +45,7 @@ export default function NotificationsPage() {
                   Mark All Read
                 </button>
                 <button
-                  onClick={handleDeleteAll}
+                  onClick={clearAll}
                   className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 >
                   <Trash2 size={16} />
@@ -151,84 +146,6 @@ export default function NotificationsPage() {
                 ))
               )}
 
-              {/* More sample notifications */}
-              {notifications.length > 0 && (
-                <>
-                  <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
-                        <Settings size={18} className="text-purple-600 dark:text-purple-400" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-slate-900 dark:text-white">
-                          System Update Available
-                        </h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-2">
-                          A new version of the dashboard is available with performance improvements.
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-slate-500">3 hours ago</p>
-                          <button className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
-                            Update now →
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center shrink-0">
-                        <CheckCircle size={18} className="text-purple-600 dark:text-purple-400" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-slate-900 dark:text-white">
-                          Weekly Report Generated
-                        </h4>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-2">
-                          Your weekly analytics report is ready for download.
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-slate-500">1 day ago</p>
-                          <button className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
-                            Download →
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 hover:border-slate-300 dark:hover:border-slate-700 transition-colors border-l-4 border-l-amber-500">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/20 flex items-center justify-center shrink-0">
-                        <AlertTriangle size={18} className="text-amber-600 dark:text-amber-400" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between gap-4">
-                          <h4 className="font-medium text-slate-900 dark:text-white">
-                            Storage Space Warning
-                          </h4>
-                          <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0 mt-2" />
-                        </div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-2">
-                          You're using 85% of your storage space. Consider archiving old data.
-                        </p>
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-slate-500">2 days ago</p>
-                          <div className="flex gap-3">
-                            <button className="text-xs text-purple-600 dark:text-purple-400 hover:underline">
-                              Mark as read
-                            </button>
-                            <button className="text-xs text-amber-600 dark:text-amber-400 hover:underline">
-                              Manage storage →
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
 
             {/* Load More */}
@@ -307,30 +224,21 @@ export default function NotificationsPage() {
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5">
               <h3 className="font-semibold text-slate-900 dark:text-white mb-4">Quick Settings</h3>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Email alerts</span>
-                  <div className="relative">
-                    <input type="checkbox" defaultChecked className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
-                    <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
+                {([
+                  { key: 'email', label: 'Email alerts' },
+                  { key: 'push', label: 'Push notifications' },
+                  { key: 'weekly', label: 'Weekly digest' },
+                ] as { key: keyof typeof settings.notifications; label: string }[]).map((item) => (
+                  <div key={item.key} className="flex items-center justify-between">
+                    <span className="text-sm text-slate-600 dark:text-slate-400">{item.label}</span>
+                    <button
+                      onClick={() => updateSettings({ notifications: { ...settings.notifications, [item.key]: !settings.notifications[item.key] } })}
+                      className={`w-9 h-5 rounded-full transition-colors relative ${settings.notifications[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+                    >
+                      <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${settings.notifications[item.key] ? 'translate-x-4' : 'translate-x-0'}`} />
+                    </button>
                   </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Push notifications</span>
-                  <div className="relative">
-                    <input type="checkbox" defaultChecked className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
-                    <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 dark:text-slate-400">Weekly digest</span>
-                  <div className="relative">
-                    <input type="checkbox" className="sr-only peer" />
-                    <div className="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-purple-600 cursor-pointer transition-colors" />
-                    <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow peer-checked:translate-x-4 transition-transform" />
-                  </div>
-                </div>
+                ))}
               </div>
               <a href="/settings" className="block mt-4 text-sm text-purple-600 dark:text-purple-400 hover:underline">
                 All notification settings →

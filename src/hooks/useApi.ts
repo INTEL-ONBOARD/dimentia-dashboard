@@ -295,6 +295,30 @@ export function useExportArticles() {
 }
 
 // ============================================
+// ACTIVITY FEED
+// ============================================
+
+export function useActivity(limit = 10) {
+  return useQuery({
+    queryKey: ['activity', limit] as const,
+    queryFn: () => apiClient.activity.getRecent(limit),
+    refetchInterval: 60 * 1000, // 1 minute
+  });
+}
+
+// ============================================
+// REMINDERS INSIGHTS
+// ============================================
+
+export function useReminderInsights() {
+  return useQuery({
+    queryKey: ['reminderInsights'] as const,
+    queryFn: () => apiClient.reminders.getInsights(),
+    refetchInterval: 10 * 60 * 1000,
+  });
+}
+
+// ============================================
 // MANUAL REFETCH UTILITIES
 // ============================================
 

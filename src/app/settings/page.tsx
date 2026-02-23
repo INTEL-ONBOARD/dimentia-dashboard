@@ -2,16 +2,49 @@
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
 import { useSettingsStore } from "@/store/useSettingsStore";
+import { useThemeStore } from "@/store/useThemeStore";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Settings, Bell, Shield, Database, RefreshCw, Check, Monitor, Moon, Sun, HelpCircle, MessageCircle, BookOpen, Zap } from "lucide-react";
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useSettingsStore();
+  const { setTheme } = useThemeStore();
   const [activeTab, setActiveTab] = useState<'general' | 'notifications' | 'privacy'>('general');
 
   const handleSave = () => {
     toast.success("Settings saved successfully!");
+  };
+
+  const handleThemeChange = (value: 'light' | 'dark' | 'system') => {
+    updateSettings({ theme: value });
+    if (value === 'system') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    } else {
+      setTheme(value);
+    }
+  };
+
+  const handleClearCache = () => {
+    if (typeof window !== 'undefined') {
+      // Clear react-query cache stored in sessionStorage if any, plus app caches
+      sessionStorage.clear();
+    }
+    toast.success("Cache cleared successfully!");
+  };
+
+  const handleResetSettings = () => {
+    updateSettings({
+      theme: 'system',
+      dateRange: 'last30days',
+      refreshInterval: 300,
+      chartAnimations: true,
+      notifications: { email: true, push: true, slack: false, sms: false, weekly: true },
+      privacy: { analyticsTracking: true, personalizedExperience: true, shareAnonymousData: true },
+    });
+    handleThemeChange('system');
+    toast.success("Settings reset to defaults!");
   };
 
   const tabs = [
@@ -19,6 +52,9 @@ export default function SettingsPage() {
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'privacy', label: 'Privacy & Security', icon: Shield },
   ];
+
+  // Use the live theme store value so the selected card reflects actual state
+  const currentTheme = settings.theme;
 
   return (
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
@@ -59,26 +95,26 @@ export default function SettingsPage() {
                       { value: 'light', label: 'Light', icon: Sun },
                       { value: 'dark', label: 'Dark', icon: Moon },
                       { value: 'system', label: 'System', icon: Monitor },
-                    ].map((theme) => (
+                    ].map((themeOption) => (
                       <button
-                        key={theme.value}
-                        className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${settings.theme === theme.value
+                        key={themeOption.value}
+                        className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${currentTheme === themeOption.value
                           ? 'border-purple-500 bg-purple-50 dark:bg-purple-500/10'
                           : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                           }`}
-                        onClick={() => updateSettings({ theme: theme.value as 'light' | 'dark' | 'system' })}
+                        onClick={() => handleThemeChange(themeOption.value as 'light' | 'dark' | 'system')}
                       >
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${settings.theme === theme.value
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${currentTheme === themeOption.value
                           ? 'bg-purple-500 text-white'
                           : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                           }`}>
-                          <theme.icon size={20} />
+                          <themeOption.icon size={20} />
                         </div>
-                        <span className={`text-sm font-medium ${settings.theme === theme.value
+                        <span className={`text-sm font-medium ${currentTheme === themeOption.value
                           ? 'text-purple-600 dark:text-purple-400'
                           : 'text-slate-600 dark:text-slate-400'
-                          }`}>{theme.label}</span>
-                        {settings.theme === theme.value && (
+                          }`}>{themeOption.label}</span>
+                        {currentTheme === themeOption.value && (
                           <Check size={16} className="text-purple-500 absolute top-2 right-2" />
                         )}
                       </button>
@@ -149,19 +185,28 @@ export default function SettingsPage() {
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Common maintenance tasks</p>
 
                   <div className="grid grid-cols-3 gap-3">
-                    <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
+                    <button
+                      onClick={handleClearCache}
+                      className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                    >
                       <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <RefreshCw size={20} className="text-purple-600 dark:text-purple-400" />
                       </div>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Clear Cache</span>
                     </button>
-                    <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
+                    <button
+                      onClick={() => { window.location.href = '/reports'; }}
+                      className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                    >
                       <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Database size={20} className="text-purple-600 dark:text-purple-400" />
                       </div>
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Export Data</span>
                     </button>
-                    <button className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group">
+                    <button
+                      onClick={handleResetSettings}
+                      className="flex flex-col items-center gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors group"
+                    >
                       <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <Shield size={20} className="text-purple-600 dark:text-purple-400" />
                       </div>
@@ -179,34 +224,31 @@ export default function SettingsPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Choose how you want to be notified</p>
 
                 <div className="space-y-1">
-                  {[
-                    { key: 'email', label: 'Email Notifications', desc: 'Receive important alerts via email' },
-                    { key: 'push', label: 'Push Notifications', desc: 'Get real-time browser notifications' },
-                    { key: 'sms', label: 'SMS Notifications', desc: 'Receive critical alerts via SMS' },
-                    { key: 'weekly', label: 'Weekly Digest', desc: 'Get a summary every Monday' },
-                  ].map((item, idx) => (
+                  {(
+                    [
+                      { key: 'email', label: 'Email Notifications', desc: 'Receive important alerts via email' },
+                      { key: 'push', label: 'Push Notifications', desc: 'Get real-time browser notifications' },
+                      { key: 'sms', label: 'SMS Notifications', desc: 'Receive critical alerts via SMS' },
+                      { key: 'weekly', label: 'Weekly Digest', desc: 'Get a summary every Monday' },
+                    ] as { key: keyof typeof settings.notifications; label: string; desc: string }[]
+                  ).map((item, idx) => (
                     <div key={item.key} className={`flex items-center justify-between py-4 ${idx !== 0 ? 'border-t border-slate-100 dark:border-slate-800' : ''}`}>
                       <div>
                         <p className="text-sm font-medium text-slate-900 dark:text-white">{item.label}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
                       </div>
                       <button
-                        onClick={() => {
-                          const notifKey = item.key as keyof typeof settings.notifications;
-                          if (notifKey in settings.notifications) {
-                            updateSettings({
-                              notifications: {
-                                ...settings.notifications,
-                                [notifKey]: !settings.notifications[notifKey]
-                              }
-                            });
-                          }
-                        }}
-                        className={`w-12 h-7 rounded-full transition-colors ${(settings.notifications as any)[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'
-                          }`}
+                        onClick={() =>
+                          updateSettings({
+                            notifications: {
+                              ...settings.notifications,
+                              [item.key]: !settings.notifications[item.key],
+                            },
+                          })
+                        }
+                        className={`w-12 h-7 rounded-full transition-colors ${settings.notifications[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
                       >
-                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${(settings.notifications as any)[item.key] ? 'translate-x-5' : 'translate-x-0'
-                          }`} />
+                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${settings.notifications[item.key] ? 'translate-x-5' : 'translate-x-0'}`} />
                       </button>
                     </div>
                   ))}
@@ -222,31 +264,30 @@ export default function SettingsPage() {
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Manage your data preferences</p>
 
                   <div className="space-y-1">
-                    {[
-                      { key: 'analyticsTracking', label: 'Analytics Tracking', desc: 'Help improve the dashboard with usage data' },
-                      { key: 'personalizedExperience', label: 'Personalized Experience', desc: 'Use your data to customize the dashboard' },
-                      { key: 'shareAnonymousData', label: 'Share Anonymous Data', desc: 'Contribute to aggregate statistics' },
-                    ].map((item, idx) => (
+                    {(
+                      [
+                        { key: 'analyticsTracking', label: 'Analytics Tracking', desc: 'Help improve the dashboard with usage data' },
+                        { key: 'personalizedExperience', label: 'Personalized Experience', desc: 'Use your data to customize the dashboard' },
+                        { key: 'shareAnonymousData', label: 'Share Anonymous Data', desc: 'Contribute to aggregate statistics' },
+                      ] as { key: keyof typeof settings.privacy; label: string; desc: string }[]
+                    ).map((item, idx) => (
                       <div key={item.key} className={`flex items-center justify-between py-4 ${idx !== 0 ? 'border-t border-slate-100 dark:border-slate-800' : ''}`}>
                         <div>
                           <p className="text-sm font-medium text-slate-900 dark:text-white">{item.label}</p>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</p>
                         </div>
                         <button
-                          onClick={() => {
-                            const privacyKey = item.key as keyof typeof settings.privacy;
-                            if (settings.privacy && privacyKey in settings.privacy) {
-                              updateSettings({
-                                privacy: {
-                                  ...settings.privacy,
-                                  [privacyKey]: !settings.privacy[privacyKey]
-                                }
-                              });
-                            }
-                          }}
-                          className={`w-12 h-7 rounded-full transition-colors ${(settings.privacy as any)?.[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
+                          onClick={() =>
+                            updateSettings({
+                              privacy: {
+                                ...settings.privacy,
+                                [item.key]: !settings.privacy[item.key],
+                              },
+                            })
+                          }
+                          className={`w-12 h-7 rounded-full transition-colors ${settings.privacy[item.key] ? 'bg-purple-600' : 'bg-slate-200 dark:bg-slate-700'}`}
                         >
-                          <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${(settings.privacy as any)?.[item.key] ? 'translate-x-5' : 'translate-x-0'}`} />
+                          <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform mx-1 ${settings.privacy[item.key] ? 'translate-x-5' : 'translate-x-0'}`} />
                         </button>
                       </div>
                     ))}
@@ -258,10 +299,16 @@ export default function SettingsPage() {
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Irreversible actions</p>
 
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors">
+                    <button
+                      onClick={() => toast.error("This action is disabled in demo mode")}
+                      className="px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
+                    >
                       Delete All Data
                     </button>
-                    <button className="px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors">
+                    <button
+                      onClick={() => toast.error("This action is disabled in demo mode")}
+                      className="px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
+                    >
                       Deactivate Account
                     </button>
                   </div>
@@ -292,7 +339,10 @@ export default function SettingsPage() {
               </div>
               <h3 className="font-semibold mb-2">Need Help?</h3>
               <p className="text-sm text-white/80 mb-4">Our support team is here to help you with any questions.</p>
-              <button className="w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
+              <button
+                onClick={() => toast.info("Opening support chat...")}
+                className="w-full py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+              >
                 Contact Support
               </button>
             </div>

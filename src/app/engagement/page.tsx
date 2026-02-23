@@ -139,8 +139,18 @@ export default function EngagementPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">Time users spend per session</p>
               </div>
             </div>
-            <p className="text-4xl font-bold text-slate-900 dark:text-white">12:45</p>
-            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 8% from last week</p>
+            {sessionsLoading ? (
+              <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded animate-pulse mt-2" />
+            ) : (
+              <>
+                <p className="text-4xl font-bold text-slate-900 dark:text-white">
+                  {sessionsData?.avgSessionDuration != null
+                    ? `${Math.floor(sessionsData.avgSessionDuration)}:${String(Math.round((sessionsData.avgSessionDuration % 1) * 60)).padStart(2, '0')}`
+                    : '—'}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Minutes per session</p>
+              </>
+            )}
           </div>
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
             <div className="flex items-center gap-3 mb-4">
@@ -152,8 +162,22 @@ export default function EngagementPage() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">Overall platform engagement</p>
               </div>
             </div>
-            <p className="text-4xl font-bold text-slate-900 dark:text-white">87.3</p>
-            <p className="text-sm text-purple-600 dark:text-purple-400 mt-2">↑ 5.2 points this month</p>
+            {articlesLoading || sessionsLoading ? (
+              <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded animate-pulse mt-2" />
+            ) : (
+              <>
+                <p className="text-4xl font-bold text-slate-900 dark:text-white">
+                  {articlesData && sessionsData
+                    ? (
+                        (articlesData.avgCompletionRate ?? 0) * 0.5 +
+                        Math.min((sessionsData.totalViews ?? 0) / 10, 30) +
+                        Math.min((articlesData.totalBookmarks ?? 0) / 5, 20)
+                      ).toFixed(1)
+                    : '—'}
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Composite engagement index</p>
+              </>
+            )}
           </div>
         </div>
       </main>

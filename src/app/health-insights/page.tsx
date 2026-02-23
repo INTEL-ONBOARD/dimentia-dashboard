@@ -94,71 +94,107 @@ export default function HealthInsightsPage() {
           </div>
         </section>
 
-        {/* Health Insights Cards */}
-        <div className="grid grid-cols-3 gap-6 mt-8">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center">
-                <Heart size={24} className="text-rose-600 dark:text-rose-400" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Cardiovascular</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Heart-related symptoms</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600 dark:text-slate-400">Palpitations</span>
-                <span className="text-sm font-medium text-slate-900 dark:text-white">23%</span>
-              </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                <div className="bg-rose-500 h-2 rounded-full" style={{ width: '23%' }} />
-              </div>
-            </div>
-          </div>
+        {/* Health Insights Cards — derived from live symptom & mood data */}
+        {(() => {
+          const symptoms = symptomsData?.topSymptoms ?? [];
+          const totalSymptomCount = symptoms.reduce((s, x) => s + x.count, 0);
+          const pct = (count: number) =>
+            totalSymptomCount > 0 ? Math.round((count / totalSymptomCount) * 100) : 0;
+          const topSymptom = symptoms[0];
+          const secondSymptom = symptoms[1];
+          const moodDist = moodsData?.moodDistribution ?? [];
+          const totalMoods = moodDist.reduce((s: number, m: { value: number }) => s + m.value, 0);
+          const positiveMoods = moodDist
+            .filter((m: { name: string }) => ['Happy', 'Calm', 'Okay'].includes(m.name))
+            .reduce((s: number, m: { value: number }) => s + m.value, 0);
+          const positiveMoodPct = totalMoods > 0 ? Math.round((positiveMoods / totalMoods) * 100) : 0;
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
-                <Brain size={24} className="text-purple-600 dark:text-purple-400" />
+          return (
+            <div className="grid grid-cols-3 gap-6 mt-8">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-rose-100 dark:bg-rose-500/20 flex items-center justify-center">
+                    <Heart size={24} className="text-rose-600 dark:text-rose-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900 dark:text-white">Top Symptom</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Most reported this month</p>
+                  </div>
+                </div>
+                {symptomsLoading ? (
+                  <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+                ) : topSymptom ? (
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600 dark:text-slate-400">{topSymptom.symptom}</span>
+                      <span className="text-sm font-medium text-slate-900 dark:text-white">{pct(topSymptom.count)}%</span>
+                    </div>
+                    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                      <div className="bg-rose-500 h-2 rounded-full" style={{ width: `${pct(topSymptom.count)}%` }} />
+                    </div>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">{topSymptom.count} occurrences</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-400 dark:text-slate-500">No data yet</p>
+                )}
               </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Cognitive</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Memory & focus related</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600 dark:text-slate-400">Memory Issues</span>
-                <span className="text-sm font-medium text-slate-900 dark:text-white">45%</span>
-              </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '45%' }} />
-              </div>
-            </div>
-          </div>
 
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
-                <Smile size={24} className="text-purple-600 dark:text-purple-400" />
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                    <Brain size={24} className="text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900 dark:text-white">2nd Most Reported</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Second common symptom</p>
+                  </div>
+                </div>
+                {symptomsLoading ? (
+                  <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+                ) : secondSymptom ? (
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600 dark:text-slate-400">{secondSymptom.symptom}</span>
+                      <span className="text-sm font-medium text-slate-900 dark:text-white">{pct(secondSymptom.count)}%</span>
+                    </div>
+                    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                      <div className="bg-purple-500 h-2 rounded-full" style={{ width: `${pct(secondSymptom.count)}%` }} />
+                    </div>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">{secondSymptom.count} occurrences</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-400 dark:text-slate-500">No data yet</p>
+                )}
               </div>
-              <div>
-                <h3 className="font-semibold text-slate-900 dark:text-white">Emotional</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Mood & wellbeing</p>
+
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-500/20 flex items-center justify-center">
+                    <Smile size={24} className="text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-slate-900 dark:text-white">Emotional</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Mood & wellbeing</p>
+                  </div>
+                </div>
+                {moodsLoading ? (
+                  <div className="h-10 bg-slate-100 dark:bg-slate-800 rounded animate-pulse" />
+                ) : (
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-slate-600 dark:text-slate-400">Positive Mood</span>
+                      <span className="text-sm font-medium text-slate-900 dark:text-white">{positiveMoodPct}%</span>
+                    </div>
+                    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                      <div className="bg-purple-500 h-2 rounded-full" style={{ width: `${positiveMoodPct}%` }} />
+                    </div>
+                    <p className="text-xs text-slate-400 dark:text-slate-500">Happy + Calm + Okay moods</p>
+                  </div>
+                )}
               </div>
             </div>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600 dark:text-slate-400">Positive Mood</span>
-                <span className="text-sm font-medium text-slate-900 dark:text-white">68%</span>
-              </div>
-              <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-                <div className="bg-purple-500 h-2 rounded-full" style={{ width: '68%' }} />
-              </div>
-            </div>
-          </div>
-        </div>
+          );
+        })()}
       </main>
     </div>
   );

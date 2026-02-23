@@ -11,18 +11,17 @@ interface User {
 
 interface AuthState {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   updateProfile: (data: Partial<User>) => void;
 }
 
-// Helper to set cookie
 const setAuthCookie = (value: string) => {
-  document.cookie = `auth-token=${value}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
+  document.cookie = `auth-token=${value}; path=/; max-age=${60 * 60 * 24 * 7}`;
 };
 
-// Helper to remove cookie
 const removeAuthCookie = () => {
   document.cookie = 'auth-token=; path=/; max-age=0';
 };
@@ -31,33 +30,32 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
+      token: null,
       isAuthenticated: false,
 
       login: async (email, password) => {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
 
-        if (email === 'admin@demo.com' && password === 'password123') {
-          // Set auth cookie for middleware
-          setAuthCookie('authenticated');
+        const json = await response.json();
 
-          set({
-            user: {
-              id: '1',
-              name: 'Admin User',
-              email: 'admin@demo.com',
-              role: 'admin',
-            },
-            isAuthenticated: true,
-          });
-        } else {
-          throw new Error('Invalid credentials');
+        if (!response.ok) {
+          throw new Error(json.message || 'Invalid credentials');
         }
+
+        const { token, user } = json.data;
+
+        setAuthCookie(token);
+
+        set({ user, token, isAuthenticated: true });
       },
 
       logout: () => {
         removeAuthCookie();
-        set({ user: null, isAuthenticated: false });
+        set({ user: null, token: null, isAuthenticated: false });
       },
 
       updateProfile: (data) => {

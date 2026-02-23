@@ -11,8 +11,8 @@ interface Settings {
     email: boolean;
     push: boolean;
     slack: boolean;
-    sms?: boolean;
-    weekly?: boolean;
+    sms: boolean;
+    weekly: boolean;
   };
   privacy: {
     analyticsTracking: boolean;

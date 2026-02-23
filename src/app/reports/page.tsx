@@ -1,15 +1,47 @@
 "use client";
 import Sidebar from "@/components/Sidebar";
 import TopNav from "@/components/TopNav";
-import { FileText, Download, Calendar, Clock, BarChart3, Users, Heart, Bell } from "lucide-react";
+import { FileText, Download, Clock, BarChart3, Users, Heart, Bell } from "lucide-react";
 import { toast } from "sonner";
+import apiClient from "@/lib/api-client";
+
+async function triggerDownload(url: string, filename: string) {
+  const token = (() => {
+    try {
+      const s = localStorage.getItem('auth-storage');
+      return s ? JSON.parse(s).state?.token : null;
+    } catch { return null; }
+  })();
+  const res = await fetch(url, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  if (!res.ok) throw new Error('Export failed');
+  const blob = await res.blob();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 
 export default function ReportsPage() {
   const handleGenerate = (reportName: string) => {
     toast.success(`Generating ${reportName}...`);
-    setTimeout(() => {
-      toast.success(`${reportName} ready for download`);
-    }, 2000);
+    setTimeout(() => toast.success(`${reportName} ready for download`), 2000);
+  };
+
+  const handleExport = async (name: string) => {
+    try {
+      toast.loading(`Exporting ${name}...`, { id: name });
+      if (name === 'Export Users') {
+        await triggerDownload('/api/export/users?format=csv', 'users.csv');
+      } else if (name === 'Export Articles') {
+        await triggerDownload('/api/export/articles?format=csv', 'articles.csv');
+      } else {
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      toast.success(`${name} downloaded`, { id: name });
+    } catch {
+      toast.error(`Failed to export ${name}`, { id: name });
+    }
   };
 
   const reports = [
@@ -95,7 +127,7 @@ export default function ReportsPage() {
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{item.desc}</p>
                   </div>
                   <button
-                    onClick={() => toast.success(`Exporting ${item.name}...`)}
+                    onClick={() => handleExport(item.name)}
                     className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
                   >
                     Export CSV
